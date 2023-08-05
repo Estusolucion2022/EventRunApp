@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <form [formGroup]="loginForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="FormControlInput8" class="form-label">Usuario</label>
+            <input type="text" class="form-control borderRadius" placeholder="Carlos3"
+              formControlName="userPlataform" />
+          </div>
+          <div class="col-sm-6">
+            <label for="FormControlInput8" class="form-label">Clave</label>
+            <input type="password" class="form-control borderRadius" placeholder="******" formControlName="password" />
+          </div>
+          <div class="col d-grid gap-2">
+            <button
+              type="button"
+              class="btn btn-primary borderRadius button colorPrimary"
+              (click)="onSubmit()"
+            >
+              Continuar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

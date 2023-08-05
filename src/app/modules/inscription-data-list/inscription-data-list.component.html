@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Carrera</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Forma Pago</th>
+            <th scope="col">Comprobante Pago</th>
+            <th scope="col">Talla Camiseta</th>
+            <th scope="col">Fecha Registro</th>
+          </tr>
+        </thead>
+        <tbody>
+              <tr *ngFor="let item of inscriptionsData">
+                <th scope="row">{{item.race}}</th>
+                <td>{{item.category}}</td>
+                <td>{{item.paymentMethod}}</td>
+                <td>{{item.proofPayment}}</td>
+                <td>{{item.tshirtSize}}</td>
+                <td>{{item.registrationDate | date : "dd/MM/yyyy"}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>

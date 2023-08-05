@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  // margin: 0;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: transparent;
+}
+
+.colorPrimary {
+  background-color: #1960B8;
+  color: white;
+}
+
+.colorSecondary {
+  background-color: #E91437;
+  color: white;
+}
+
+.aLinkColor {
+  text-decoration: none;
+  color: #fff;
+}
+
+.card {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 20px !important;
+  }
+
+.borderRadius {
+  border-radius: 20px !important;
+}
+
+.title {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.titleSecondary {
+  color: #818181;
+  margin-bottom: 15px;
+}
+
+.form-label {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 1.0em;
+}
+
+@media screen and (max-width: 1000px) {
+  .form-label {
+    font-size: 0.9em;
+  }
+
+  .textSpan {
+    font-size: 0.9em;
+  }
+}

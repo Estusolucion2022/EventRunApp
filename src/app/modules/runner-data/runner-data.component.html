@@ -1,0 +1,171 @@
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="titleSecondary">Datos personales</h4>
+        <!-- Personal data -->
+        <div class="stepFirst">
+          <div class="row">
+            <div class="col-md-6">
+              <i class="bi bi-file-person-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Tipo Documento:
+              </label>
+              <span class="textSpan">{{
+                this.runner.documentType
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-hash"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Número de documento:</label
+              >
+              <span class="textSpan">{{
+                this.runner.documentNumber
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-person-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Nombre(s):</label
+              >
+              <span class="textSpan">{{
+                this.runner.firstName
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-person-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Apellido(s):</label
+              >
+              <span class="textSpan">{{
+                this.runner.lastName
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-activity"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Tipo de sangre:</label
+              >
+              <span class="textSpan">{{
+                this.runner.bloodType
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-envelope-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Correo electrónico:</label
+              >
+              <span class="textSpan">{{
+                this.runner.email
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-phone-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Celular:</label
+              >
+              <span class="textSpan">{{
+                this.runner.phone
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-person-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Género:</label
+              >
+              <span class="textSpan">{{
+                this.runner.gender
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-geo-alt-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Ciudad:</label
+              >
+              <span class="textSpan">{{
+                this.runner.city
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-house-door-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Dirección:</label
+              >
+              <span class="textSpan">{{
+                this.runner.address
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-calendar-date-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Fecha de nacimiento:</label
+              >
+              <span class="textSpan">{{
+                this.runner.birthDate | date : "dd/MM/yyyy"
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-geo-alt-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >País nacionalidad:</label
+              >
+              <span class="textSpan">{{
+                this.runner.countryNationality
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-person-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Nombre contacto emergencia:</label
+              >
+              <span class="textSpan">{{
+                this.runner.emergencyContactName
+              }}</span>
+            </div>
+            <div class="col-md-6">
+              <i class="bi bi-phone-fill"></i>
+              <label for="exampleFormControlInput1" class="form-label"
+                >Número contacto emergencia:</label
+              >
+              <span class="textSpan">{{
+                this.runner.emergencyContactPhone
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- End personal data -->
+      </div>
+    </div>
+    
+    <div class="spaceBtn">
+      <button
+        type="button"
+        class="btn btn-primary borderRadius colorPrimary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalSucription"
+      >
+        Agregar detalle del pago con Codigo Asignado:
+      </button>
+    </div>
+  
+    
+    <app-create-inscription-data></app-create-inscription-data>
+  
+    <!-- Table information the racing -->
+    <app-inscription-data-list
+      [inscriptionsData]="this.inscriptionData"
+    ></app-inscription-data-list>
+    <!-- End Table information the racing -->
+    <div class="row">
+      <div class="col-sm-12">
+        <button class="btn btn-link">
+          <a
+          class="aLinkColors"
+            href="https://clubol.org/wp/wp-content/uploads/2023/07/CONFIRMACION-DE-DECLARACION-23.pdf"
+            >↓ Confirmación de Declaración de Liberación de Responsabilidades</a
+          >
+        </button> 
+      </div>
+    </div>
+  
+  </div>
