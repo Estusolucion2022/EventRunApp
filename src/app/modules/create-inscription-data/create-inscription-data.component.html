@@ -23,7 +23,9 @@
         <form [formGroup]="inscriptionForm">
           <div class="row">
             <div class="col-sm-6">
-              <label for="FormControlInput1" class="form-label">Carrera *</label>
+              <label for="FormControlInput1" class="form-label"
+                >Carrera *</label
+              >
               <select
                 class="form-select borderRadius"
                 formControlName="idRace"
@@ -34,44 +36,55 @@
                   {{ race.text }}
                 </option>
               </select>
-              <ng-container *ngIf="inscriptionForm.get('idRace')?.touched && inscriptionForm.get('idRace')?.errors?.['required']">
-                <span style="color: red;">Campo Requerido *</span>
+              <ng-container
+                *ngIf="inscriptionForm.get('idRace')?.touched && inscriptionForm.get('idRace')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
               </ng-container>
             </div>
             <div class="col-sm-6">
-                <label for="FormControlInput1" class="form-label">Distancia Elegida *</label>
-                <select
-                  class="form-select borderRadius"
-                  formControlName="idCategory"
-                  required
+              <label for="FormControlInput1" class="form-label"
+                >Distancia Elegida *</label
+              >
+              <select
+                class="form-select borderRadius"
+                formControlName="idCategory"
+                required
+              >
+                <option value="">Seleccione una opción ...</option>
+                <option
+                  *ngFor="let category of categories"
+                  [value]="category.value"
                 >
-                  <option value="">Seleccione una opción ...</option>
-                  <option *ngFor="let category of categories" [value]="category.value">
-                    {{ category.text }}
-                  </option>
-                </select>
-                <ng-container *ngIf="inscriptionForm.get('idCategory')?.touched && inscriptionForm.get('idCategory')?.errors?.['required']">
-                  <span style="color: red;">Campo Requerido *</span>
-                </ng-container>
+                  {{ category.text }}
+                </option>
+              </select>
+              <ng-container
+                *ngIf="inscriptionForm.get('idCategory')?.touched && inscriptionForm.get('idCategory')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
             </div>
             <div class="col-sm-6">
-                <label for="FormControlInput8" class="form-label">Club</label>
-                <input
-                  type="text"
-                  class="form-control borderRadius"
-                  placeholder="Ej. Marinos (Opcional)"
-                  formControlName="club"
-                />
-              </div>
+              <label for="FormControlInput8" class="form-label">Club</label>
+              <input
+                type="text"
+                class="form-control borderRadius"
+                placeholder="Ej. Marinos (Opcional)"
+                formControlName="club"
+              />
+            </div>
             <div class="col-sm-6">
-                <label for="FormControlInput8" class="form-label">Aerolineade Origen</label>
-                <input
-                  type="text"
-                  class="form-control borderRadius"
-                  placeholder="Ej. Airline"
-                  formControlName="airlineCityOrigin"
-                />
-              </div>
+              <label for="FormControlInput8" class="form-label"
+                >Aerolineade Origen</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                placeholder="Ej. Airline"
+                formControlName="airlineCityOrigin"
+              />
+            </div>
             <div class="col-sm-6">
               <label for="FormControlInput2" class="form-label"
                 >Fecha de ida</label
@@ -129,17 +142,31 @@
                 class="form-control borderRadius"
                 placeholder="Ej. Pago carrera 2k"
                 formControlName="detailsPayment"
+                maxlength="7"
                 required
               />
-              <ng-container *ngIf="inscriptionForm.get('detailsPayment')?.touched && inscriptionForm.get('detailsPayment')?.errors?.['required']">
-                <span style="color: red;">Campo Requerido *</span>
+              <ng-container
+                *ngIf="inscriptionForm.get('detailsPayment')?.touched"
+              >
+                <ng-container
+                  *ngIf="inscriptionForm.get('detailsPayment')?.errors?.['required']"
+                >
+                  <span style="color: red">Campo Requerido *</span>
+                </ng-container>
+                <ng-container
+                  *ngIf="!inscriptionForm.get('detailsPayment')?.errors?.['required']
+              && inscriptionForm.get('detailsPayment')?.errors?.['pattern']
+              "
+                >
+                  <span style="color: red">Carácter no válido *</span>
+                </ng-container>
               </ng-container>
             </div>
             <div class="col-sm-6">
               <label for="FormControlInput7" class="form-label"
                 >Talla camiseta *</label
               >
-                <select
+              <select
                 id="tallaCamiseta"
                 name="tallaCamiseta"
                 class="form-select borderRadius"
@@ -154,8 +181,10 @@
                 <option value="XL">XL</option>
                 <!--<option value="XXL">XXL</option>-->
               </select>
-              <ng-container *ngIf="inscriptionForm.get('tshirtSize')?.touched && inscriptionForm.get('tshirtSize')?.errors?.['required']">
-                <span style="color: red;">Campo Requerido *</span>
+              <ng-container
+                *ngIf="inscriptionForm.get('tshirtSize')?.touched && inscriptionForm.get('tshirtSize')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
               </ng-container>
             </div>
             <div class="col-sm-12">
@@ -179,7 +208,7 @@
                 formControlName="authorizationListEnrolled"
               />
               <label for="FormControlInput10" class="form-check-label">
-                Autorizo que mi nombre sea publicado en la lista de inscritos. 
+                Autorizo que mi nombre sea publicado en la lista de inscritos.
               </label>
             </div>
             <div class="col-sm-12 form-check">
@@ -191,21 +220,30 @@
                 required
               />
               <label for="FormControlInput10" class="form-check-label">
-                <p> Acepto plenamente lo estipulado en la <a
-                  href="https://clubol.org/sanandres32k/wp-content/uploads/2023/07/declaracion-de-liberacion-de-responsabilidades-sanandres32k.co_.pdf"
-                  target="_blank">Declaración de
-                 Liberación de Responsabilidades</a>,
-                 <a
-                  href="https://clubol.org/sanandres32k/wp-content/uploads/2023/07/reglamento-de-la-carrera-sanandres32k.co_.pdf"
-                  target="_blank">Reglamento</a>-Términos de
-                 Participación en la Carrera y demás <a
-                  href="https://clubol.org/sanandres32k/wp-content/uploads/2023/07/Condiciones-sanandres32k.co_.pdf"
-                  target="_blank">Condiciones</a>
-                 establecidas en el Sitio Web.
-                 <ng-container *ngIf="inscriptionForm.get('acceptanceTyC')?.errors?.['required']">
-                   <span style="color: red;">Campo Requerido *</span>
-                 </ng-container>
-                 </p>                 
+                <p>
+                  Acepto plenamente lo estipulado en la
+                  <a
+                    href="https://clubol.org/sanandres32k/wp-content/uploads/2023/07/declaracion-de-liberacion-de-responsabilidades-sanandres32k.co_.pdf"
+                    target="_blank"
+                    >Declaración de Liberación de Responsabilidades</a
+                  >,
+                  <a
+                    href="https://clubol.org/sanandres32k/wp-content/uploads/2023/07/reglamento-de-la-carrera-sanandres32k.co_.pdf"
+                    target="_blank"
+                    >Reglamento</a
+                  >-Términos de Participación en la Carrera y demás
+                  <a
+                    href="https://clubol.org/sanandres32k/wp-content/uploads/2023/07/Condiciones-sanandres32k.co_.pdf"
+                    target="_blank"
+                    >Condiciones</a
+                  >
+                  establecidas en el Sitio Web.
+                  <ng-container
+                    *ngIf="inscriptionForm.get('acceptanceTyC')?.errors?.['required']"
+                  >
+                    <span style="color: red">Campo Requerido *</span>
+                  </ng-container>
+                </p>
               </label>
               <span></span>
             </div>
