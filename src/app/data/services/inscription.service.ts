@@ -15,8 +15,6 @@ export class InscriptionService {
   private _http = inject(HttpClient)
   
   createInscription(inscription: InscriptionData): Observable<ResponseApi>{
-    console.log(Constants.URL_API + Constants.ENDPOINT_SAVE_INSCRIPTION);
-    console.log(inscription);
     return this._http.post<ResponseApi>(Constants.URL_API + Constants.ENDPOINT_SAVE_INSCRIPTION, inscription); 
   }
 

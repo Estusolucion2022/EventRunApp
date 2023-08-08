@@ -54,25 +54,25 @@ export class CreateInscriptionDataComponent implements OnInit {
 
   initForm(): FormGroup {
     return this._formBuilder.group({
-      idRace: ['', [Validators.required]],
-      idRunner: ['', [Validators.required]],
-      idCategory: ['', [Validators.required]],
-      airlineCityOrigin: [''],
-      departureDate: [''],
-      returnDate: [''],
-      idPaymentMethod: [''],
-      proofPayment: [''],
+      idRace: [null, [Validators.required]],
+      idRunner: [null, [Validators.required]],
+      idCategory: [null, [Validators.required]],
+      airlineCityOrigin: [null],
+      departureDate: [null],
+      returnDate: [null],
+      idPaymentMethod: [null, [Validators.required]],
+      proofPayment: [null],
       detailsPayment: [
-        '',
+        null,
         [
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9]+$'),
         ],
       ],
-      tshirtSize: ['', [Validators.required]],
+      tshirtSize: [null, [Validators.required]],
       authorizationListEnrolled: [false],
-      club: [''],
-      observations: [''],
+      club: [null],
+      observations: [null],
       acceptanceTyC: [false, [Validators.required]],
     });
   }
