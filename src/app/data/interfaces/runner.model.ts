@@ -8,7 +8,7 @@ export interface Runner{
     birthDate: Date
     codeDocumentType: string,
     documentType: string,
-    documentNumber: number,
+    documentNumber: string,
     codeCity: string,
     city: string,
     address: string,

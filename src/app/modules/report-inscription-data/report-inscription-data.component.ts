@@ -22,6 +22,10 @@ export class ReportInscriptionDataComponent implements OnInit {
   private _user: User | null = {} as User;
 
   ngOnInit(): void {
+    this.confirmUser();
+  }
+
+  confirmUser(){
     this._userService.getLocalUser$().subscribe(response => {
       this._user = response;
     });
@@ -29,12 +33,16 @@ export class ReportInscriptionDataComponent implements OnInit {
       this._router.navigate(['loginAdministrator']);
     }
     else {
-      this._inscriptionService.getReportInscription().subscribe(response => {
-        if (response.code == 0) {
-          this.reportInscriptionData = response.data;
-        }
-      })
+      this.initData();
     }
+  }
+
+  initData(){
+    this._inscriptionService.getReportInscription().subscribe(response => {
+      if (response.code == 0) {
+        this.reportInscriptionData = response.data;
+      }
+    })
   }
 
   exportExcel() {
