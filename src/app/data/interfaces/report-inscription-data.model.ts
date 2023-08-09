@@ -8,7 +8,8 @@ export interface ReportInscriptionData{
     firstName: string,
     lastName: string,
     gender: string,
-    birthDate: Date, 
+    birthDate: Date,
+    age: number,
     bloodType: string,
     email: string,
     phone: string,
@@ -20,11 +21,13 @@ export interface ReportInscriptionData{
     returnDate: Date,
     paymentMethod: string,
     proofPayment: string,
+    detailsPayment: string,
     tshirtSize: string,
     authorizationListEnrolled: boolean,
     club: string,
     observations: string,
     emergencyContactName: string,
     emergencyContactPhone: string,
-    category: string
+    category: string,
+    categoryRace: string
 }

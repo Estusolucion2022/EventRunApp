@@ -44,6 +44,7 @@
       <th scope="col">Apellidos</th>
       <th scope="col">Sexo</th>
       <th scope="col">Fecha Nacimiento</th>
+      <th scope="col">Edad</th>
       <th scope="col">Tipo Sangre</th>
       <th scope="col">Correo</th>
       <th scope="col">Celular</th>
@@ -55,24 +56,28 @@
       <th scope="col">Fecha Regreso</th>
       <th scope="col">Forma Pago</th>
       <th scope="col">Comprobante Pago</th>
+      <th scope="col">Detalle Pago</th>
       <th scope="col">Talla Camiseta</th>
       <th scope="col">Autorizacion Lista inscritos</th>
       <th scope="col">Club</th>
       <th scope="col">Observaciones</th>
       <th scope="col">Nombre Contacto</th>
       <th scope="col">Celular Contacto</th>
-      <th scope="col">Carrera Categoria</th>
+      <th scope="col">Carrera</th>
+      <th scope="col">Distancia</th>
+      <th scope="col">Categoria</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of reportInscriptionData">
-      <td>{{item.registrationDate | date : "dd/MM/yyyy"}}</td>
+      <td>{{item.registrationDate}}</td>
       <td>{{item.documentType}}</td>
       <td>{{item.documentNumber}}</td>
       <td>{{item.firstName}}</td>
       <td>{{item.lastName}}</td>
       <td>{{item.gender}}</td>
       <td>{{item.birthDate}}</td>
+      <td>{{item.age}}</td>
       <td>{{item.bloodType}}</td>
       <td>{{item.email}}</td>
       <td>{{item.phone}}</td>
@@ -84,13 +89,16 @@
       <td>{{item.returnDate}}</td>
       <td>{{item.paymentMethod}}</td>
       <td>{{item.proofPayment}}</td>
+      <td>{{item.detailsPayment}}</td>
       <td>{{item.tshirtSize}}</td>
       <td>{{item.authorizationListEnrolled ? 'Si' : 'No'}}</td>
       <td>{{item.club}}</td>
       <td>{{item.observations}}</td>
       <td>{{item.emergencyContactName}}</td>
       <td>{{item.emergencyContactPhone}}</td>
-      <td>{{item.race}} {{item.category}}</td>
+      <td>{{item.race}}</td>
+      <td>{{item.category}}</td>
+      <td>{{item.categoryRace}}</td>
     </tr>
   </tbody>
 </table>
