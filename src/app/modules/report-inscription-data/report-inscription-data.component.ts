@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReportInscriptionData } from 'src/app/data/interfaces/report-inscription-data.model';
+import { ResponseApi } from 'src/app/data/interfaces/response-api.model';
 import { User } from 'src/app/data/interfaces/user.model';
 import { InscriptionService } from 'src/app/data/services/inscription.service';
 import { UserService } from 'src/app/data/services/user.service';
@@ -15,6 +16,9 @@ import * as XLSX from 'xlsx';
 export class ReportInscriptionDataComponent implements OnInit {
 
   reportInscriptionData: ReportInscriptionData[] = [];
+  newReportData: ReportInscriptionData[] = [];
+  pagActive: boolean = true;
+  pagNumber: number = 0;
   private _inscriptionService = inject(InscriptionService);
   private _userService = inject(UserService);
   private _router = inject(Router);
@@ -41,8 +45,29 @@ export class ReportInscriptionDataComponent implements OnInit {
     this._inscriptionService.getReportInscription().subscribe(response => {
       if (response.code == 0) {
         this.reportInscriptionData = response.data;
+        this.handlePaginator(0)
       }
     })
+  }
+
+  handlePaginator(pag: number): void {
+    this.pagNumber = pag
+    let numberPag = this.getNumberPages()
+    if (numberPag < this.pagNumber + 1) return;
+    this.newReportData = []
+    let startPag = this.pagNumber !== 0 ? this.pagNumber * 10 : this.pagNumber
+    let endPag = this.pagNumber !== 0 ? this.pagNumber * 10 + 10 : this.pagNumber + 10
+    let data = this.reportInscriptionData
+    let endItems = data.length - endPag < 0 ? data.length - endPag + endPag : endPag
+
+    for (let i = startPag; i < endItems; i++) {
+      this.newReportData.push(data[i]);
+    }
+  }
+
+  getNumberPages(): number {
+    let data = this.reportInscriptionData
+    return Math.round(data.length / 10) + 1;
   }
 
   exportExcel() {

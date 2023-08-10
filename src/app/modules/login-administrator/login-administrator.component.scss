@@ -1,4 +1,10 @@
 .button {
-    margin-top: 15px;
-  }
-  
+  margin-top: 15px;
+}
+
+:host {
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}

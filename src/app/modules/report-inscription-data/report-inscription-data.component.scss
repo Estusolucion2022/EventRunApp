@@ -3,6 +3,15 @@
     text-align: center;
 }
 
-.card {
-    margin-top: 12px !important;
+.headerCard {
+    display: flex;
+    justify-content: space-between;
+    
+    & .start {
+        padding-top: 8px;
+    }
+}
+
+.paginator {
+ margin-top: 10px;
 }
