@@ -31,7 +31,7 @@
         </thead>
         <tbody class="table-group-divider">
           <tr *ngFor="let item of newReportData; index as i">
-            <th scope="row">{{i + 1}}</th>
+            <th scope="row">{{this.indexPag[i] + 1}}</th>
             <td>{{item.firstName}} {{item.lastName}}</td>
             <td>{{item.documentNumber}}</td>
             <td>{{item.phone}}</td>
