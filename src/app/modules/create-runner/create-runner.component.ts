@@ -171,6 +171,7 @@ export class CreateRunnerComponent implements OnInit {
   }
 
   handleInvalidSecond(): boolean {
+    console.log(this.getValidation('repeatEmail'))
     return (
       (this.getValidation('firstName')?.invalid as boolean) ||
       (this.getValidation('lastName')?.invalid as boolean) ||
