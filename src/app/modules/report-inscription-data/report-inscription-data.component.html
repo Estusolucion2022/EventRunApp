@@ -25,6 +25,7 @@
             <th scope="col">Carrera</th>
             <th scope="col">Fecha Registro</th>
             <th scope="col">Metodo Pago</th>
+            <th scope="col">Código asignado</th>
             <th scope="col">Comprobante Pago</th>
           </tr>
         </thead>
@@ -37,6 +38,7 @@
             <td>{{item.race}} {{item.category}}</td>
             <td>{{item.registrationDate | date : "d/M/yy, h:mm a"}}</td>
             <td>{{item.paymentMethod}}</td>
+            <td>{{item.detailsPayment}}</td>
             <td>{{item.proofPayment}}</td>
           </tr>
         </tbody>
