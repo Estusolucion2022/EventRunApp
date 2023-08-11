@@ -58,8 +58,22 @@ export class CreateRunnerComponent implements OnInit {
           this.handleValidateRepeat('email'),
         ],
       ],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$'), this.handleValidateRepeat('repeatPhone')]],
-      repeatPhone: ['', [Validators.required, Validators.pattern('^[0-9]+$'), this.handleValidateRepeat('phone')]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]+$'),
+          this.handleValidateRepeat('repeatPhone'),
+        ],
+      ],
+      repeatPhone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]+$'),
+          this.handleValidateRepeat('phone'),
+        ],
+      ],
       birthDate: ['', [Validators.required]],
       codeDocumentType: ['CC', [Validators.required]],
       //documentNumber: ['79856908', [Validators.required]],
@@ -171,7 +185,6 @@ export class CreateRunnerComponent implements OnInit {
   }
 
   handleInvalidSecond(): boolean {
-    console.log(this.getValidation('repeatEmail'))
     return (
       (this.getValidation('firstName')?.invalid as boolean) ||
       (this.getValidation('lastName')?.invalid as boolean) ||
@@ -193,6 +206,32 @@ export class CreateRunnerComponent implements OnInit {
       (this.getValidation('emergencyContactName')?.invalid as boolean) ||
       (this.getValidation('emergencyContactPhone')?.invalid as boolean)
     );
+  }
+
+  onChangeRepeatValidation(nameContro: string): void {
+    switch (nameContro) {
+      case 'Phone':
+        this.handleValidateRepeatControl('phone', 'repeatPhone');
+        break;
+      case 'Email':
+        this.handleValidateRepeatControl('email', 'repeatEmail');
+        break;
+      case 'Document':
+        this.handleValidateRepeatControl('documentNumber', 'repeatDocumentNumber');
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  handleValidateRepeatControl(nameControl: string, nameControl2: string): void {
+    let control = this.getValidation(nameControl)?.value;
+    let reapeatControl = this.getValidation(nameControl2)?.value;
+    if (control === reapeatControl) {
+      this.getValidation(nameControl)?.setErrors(null);
+      this.getValidation(nameControl2)?.setErrors(null);
+    }
   }
 
   handleValidateRepeat(name: string): ValidatorFn {
