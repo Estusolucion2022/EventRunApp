@@ -54,13 +54,13 @@ export class CreateInscriptionDataComponent implements OnInit {
 
   initForm(): FormGroup {
     return this._formBuilder.group({
-      idRace: [null, [Validators.required]],
-      idRunner: [null, [Validators.required]],
-      idCategory: [null, [Validators.required]],
+      idRace: ['', [Validators.required]],
+      idRunner: ['', [Validators.required]],
+      idCategory: ['', [Validators.required]],
       airlineCityOrigin: [null],
       departureDate: [null],
       returnDate: [null],
-      idPaymentMethod: [null, [Validators.required]],
+      idPaymentMethod: ['', [Validators.required]],
       proofPayment: [null],
       detailsPayment: [
         null,
