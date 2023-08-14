@@ -11,7 +11,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar pago</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar Código Asignado**</h1>
         <button
           type="button"
           class="btn-close"
@@ -139,7 +139,7 @@
             </div>
             <div class="col-sm-6">
               <label for="FormControlInput6" class="form-label"
-                >Codigo Asignado</label
+                >**Código Asignado</label
               >
               <ng-container
                 *ngIf="inscriptionForm.get('detailsPayment')?.errors?.['required']"
@@ -149,7 +149,7 @@
               <input
                 type="text"
                 class="form-control borderRadius"
-                placeholder="Ej. Pago carrera 2k"
+                placeholder="Ej. NA342"
                 formControlName="detailsPayment"
                 maxlength="7"
                 required
