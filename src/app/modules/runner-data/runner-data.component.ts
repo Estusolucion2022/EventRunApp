@@ -21,7 +21,6 @@ export class RunnerDataComponent implements OnInit{
 
   ngOnInit(): void {
     this._runnerService.getLocalRunner$().subscribe(data=>{
-      console.log(data)
       if (!data || data.id === undefined) {
         this._route.navigate(['/'])
         return

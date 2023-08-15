@@ -33,10 +33,9 @@ export class ReportInscriptionDataComponent implements OnInit {
 
   private _user: User | null = {} as User;
   ngOnInit(): void {
-    // this.confirmUser();
+    this.confirmUser();
     this.initModal();
     this.handleNotDataRunner()
-    this.initData();
   }
 
   initModal(): void { 
