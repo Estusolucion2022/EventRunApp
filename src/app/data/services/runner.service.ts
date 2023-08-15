@@ -24,6 +24,15 @@ export class RunnerService {
     return this._http.get<ResponseApi>(Constants.URL_API + Constants.ENDPOINT_SEARCH_RUNNER + complementData); 
   }
 
+  updateRunner(description: number, runner: Runner): Observable<ResponseApi>{ 
+    const model = {
+      idUser: runner.id,
+      description,
+      runner
+    }
+    return this._http.post<ResponseApi>(Constants.URL_API + Constants.ENDPOINT_UPDATE_RUNNER, model); 
+  }
+
   getLocalRunner$(): Observable<Runner>{
     return this.runner$.asObservable();
   }

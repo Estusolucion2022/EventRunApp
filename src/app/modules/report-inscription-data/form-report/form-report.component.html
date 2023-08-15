@@ -1,0 +1,435 @@
+<div class="container">
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label="Example with label"
+    aria-valuenow="25"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div class="progress-bar" [style]="'width: ' + progress + '%'">
+      {{ progress }}%
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <form class="formFirst" [formGroup]="runnerForm">
+        <!-- First Step Document -->
+        <div class="stepFirst" *ngIf="this.step == 0">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Tipo documento *</label
+              >
+              <select
+                class="form-select borderRadius"
+                formControlName="codeDocumentType"
+                required
+              >
+                <option value="">Seleccione una opción ...</option>
+                <option
+                  *ngFor="let documentType of this.documentTypes"
+                  [value]="documentType.value"
+                >
+                  {{ documentType.text }}
+                </option>
+              </select>
+              <ng-container
+                *ngIf="runnerForm.get('codeDocumentType')?.touched 
+                  && runnerForm.get('codeDocumentType')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+            <div class="col-md-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Número de documento *</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                placeholder="Ej. 1234567890"
+                formControlName="documentNumber"
+                required
+              />
+              <ng-container *ngIf="runnerForm.get('documentNumber')?.touched">
+                <ng-container
+                  *ngIf="runnerForm.get('documentNumber')?.errors?.['required']"
+                >
+                  <span style="color: red">Campo requerido *</span>
+                </ng-container>
+                <ng-container
+                  *ngIf="!runnerForm.get('documentNumber')?.errors?.['required']
+                  && runnerForm.get('documentNumber')?.errors?.['pattern']"
+                >
+                  <span style="color: red">Carácter no valido *</span>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col d-grid gap-2">
+              <button
+                type="button"
+                class="btn btn-primary borderRadius button"
+                [disabled]="handleInvalidOne() || loading"
+                (click)="changeStep(1)"
+              >
+                {{ loading ? "Cargando..." : "Siguiente" }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End First Step Document -->
+
+        <!-- Second Step Personal Info -->
+
+        <div class="stepSecond" *ngIf="this.step == 1">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Nombre(s) *</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                formControlName="firstName"
+                placeholder="Ej. Juan Manuel"
+                required
+              />
+              <ng-container
+                *ngIf="runnerForm.get('firstName')?.touched 
+                  && runnerForm.get('firstName')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Apellido(s) *</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                formControlName="lastName"
+                placeholder="Ej. Perez"
+                required
+              />
+              <ng-container
+                *ngIf="runnerForm.get('lastName')?.touched 
+                  && runnerForm.get('lastName')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Tipo de Sangre *</label
+              >
+              <select
+                id="tipoSangre"
+                name="tipoSangre"
+                class="form-select borderRadius"
+                formControlName="bloodType"
+              >
+                <option value="">Selecciona una opción ...</option>
+                <option value="A+">A+</option>
+                <option value="B+">B+</option>
+                <option value="O+">O+</option>
+                <option value="AB+">AB+</option>
+                <option value="A-">A-</option>
+                <option value="B-">B-</option>
+                <option value="O-">O-</option>
+                <option value="AB-">AB-</option>
+              </select>
+              <ng-container
+                *ngIf="runnerForm.get('bloodType')?.touched 
+                  && runnerForm.get('bloodType')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Fecha de nacimiento *</label
+              >
+              <input
+                type="date"
+                class="form-control borderRadius"
+                formControlName="birthDate"
+                required
+              />
+              <ng-container
+                *ngIf="runnerForm.get('birthDate')?.touched 
+                  && runnerForm.get('birthDate')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Correo electrónico *</label
+              >
+              <input
+                type="email"
+                class="form-control borderRadius"
+                formControlName="email"
+                placeholder="Ej. Juan@correo.com"
+                required
+              />
+              <ng-container *ngIf="runnerForm.get('email')?.touched">
+                <ng-container
+                  *ngIf="runnerForm.get('email')?.errors?.['required']"
+                >
+                  <span style="color: red">Campo Requerido *</span>
+                </ng-container>
+                <ng-container
+                  *ngIf="!runnerForm.get('email')?.errors?.['required']
+                  && runnerForm.get('email')?.errors?.['email']"
+                >
+                  <span style="color: red">Correo no valido *</span>
+                </ng-container>
+              </ng-container>
+            </div>
+            <div class="col-sm-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Celular *</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                formControlName="phone"
+                placeholder="Ej. 3108145549"
+                maxlength="13"
+                required
+              />
+              <ng-container *ngIf="runnerForm.get('phone')?.touched">
+                <ng-container
+                  *ngIf="runnerForm.get('phone')?.errors?.['required']"
+                >
+                  <span style="color: red">Campo Requerido *</span>
+                </ng-container>
+                <ng-container
+                  *ngIf="!runnerForm.get('phone')?.errors?.['required']
+                    && runnerForm.get('phone')?.errors?.['pattern']"
+                >
+                  <span style="color: red">Solo números *</span>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col d-grid gap-2">
+              <button
+                type="button"
+                class="btn btn-danger borderRadius button"
+                (click)="this.changeStep(0)"
+              >
+                Anterior
+              </button>
+            </div>
+            <div class="col d-grid gap-2">
+              <button
+                type="button"
+                class="btn btn-primary borderRadius button"
+                [disabled]="handleInvalidSecond()"
+                (click)="this.changeStep(2)"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- End Second Step Personal Info -->
+
+        <!-- Third Step Personal Info -->
+
+        <div class="stepThird" *ngIf="this.step == 2">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Ciudad</label
+              >
+              <select
+                class="form-select borderRadius"
+                formControlName="codeCity"
+                required
+              >
+                <option value="">Seleccione una opción ...</option>
+                <option *ngFor="let city of this.cities" [value]="city.value">
+                  {{ city.text }}
+                </option>
+              </select>
+              <ng-container
+                *ngIf="runnerForm.get('codeCity')?.touched 
+                  && runnerForm.get('codeCity')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Dirección</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                formControlName="address"
+                placeholder="Ej. Calle 93 # 8 - 28"
+                required
+              />
+              <ng-container
+                *ngIf="runnerForm.get('address')?.touched 
+                  && runnerForm.get('address')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >País nacionalidad</label
+              >
+              <select
+                class="form-select borderRadius"
+                formControlName="codeCountryNationality"
+                required
+              >
+                <option value="">Seleccione una opción ...</option>
+                <option
+                  *ngFor="let country of this.countries"
+                  [value]="country.value"
+                >
+                  {{ country.text }}
+                </option>
+              </select>
+              <ng-container
+                *ngIf="runnerForm.get('codeCountryNationality')?.touched 
+                  && runnerForm.get('codeCountryNationality')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Género</label
+              >
+              <select
+                class="form-select borderRadius"
+                formControlName="idGender"
+                required
+              >
+                <option value="">Seleccione una opción ...</option>
+                <option
+                  *ngFor="let gender of this.genders"
+                  [value]="gender.value"
+                >
+                  {{ gender.text }}
+                </option>
+              </select>
+              <ng-container
+                *ngIf="runnerForm.get('idGender')?.touched 
+                  && runnerForm.get('idGender')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Nombre contacto emergencia</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                formControlName="emergencyContactName"
+                placeholder="Ej. Yiny Perez"
+                required
+              />
+              <ng-container
+                *ngIf="runnerForm.get('emergencyContactName')?.touched 
+                  && runnerForm.get('emergencyContactName')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Número contacto emergencia</label
+              >
+              <input
+                type="text"
+                class="form-control borderRadius"
+                formControlName="emergencyContactPhone"
+                placeholder="Ej. 3000000000"
+                maxlength="13"
+                required
+              />
+              <ng-container
+                *ngIf="runnerForm.get('emergencyContactPhone')?.touched 
+                  && runnerForm.get('emergencyContactPhone')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+              <ng-container
+                *ngIf="!runnerForm.get('emergencyContactPhone')?.errors?.['required']
+                  && runnerForm.get('emergencyContactPhone')?.errors?.['pattern']"
+              >
+                <span style="color: red">Solo números *</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Descripción del motivo del cambio</label
+              >
+              <textarea
+              class="form-control"
+                formControlName="description"
+                placeholder="Ej. Petición usuario"
+                rows="1"
+                required
+              ></textarea>
+              <ng-container
+                *ngIf="runnerForm.get('description')?.touched 
+                  && runnerForm.get('description')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col d-grid gap-2">
+              <button
+                type="button"
+                class="btn btn-danger borderRadius button colorSecondary"
+                (click)="changeStep(1)"
+              >
+                Anterior
+              </button>
+            </div>
+            <div class="col d-grid gap-2">
+              <button
+                type="button"
+                class="btn btn-primary borderRadius button colorPrimary"
+                [disabled]="handleInvalidThird()"
+                (click)="onSubmit()"
+              >
+                Actualizar
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- End Second Step Personal Info -->
+    </div>
+  </div>
+</div>

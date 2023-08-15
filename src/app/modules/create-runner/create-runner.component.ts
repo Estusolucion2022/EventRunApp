@@ -13,6 +13,8 @@ import { Runner } from 'src/app/data/interfaces/runner.model';
 import { ParametryService } from 'src/app/data/services/parametry.service';
 import { RunnerService } from 'src/app/data/services/runner.service';
 
+declare var window: any;
+
 @Component({
   selector: 'app-create-runner',
   templateUrl: './create-runner.component.html',
@@ -32,10 +34,22 @@ export class CreateRunnerComponent implements OnInit {
   cities: OptionSelect[] = [];
   countries: OptionSelect[] = [];
   genders: OptionSelect[] = [];
+  formModal!: any;
+  code!: string;
+  codeBackend: string = '';
+  errorCode: boolean = false;
+  loading: boolean = false;
 
   ngOnInit(): void {
     this.runnerForm = this.initForm();
     this.initSelects();
+    this.initModal()
+  }
+
+  initModal(): void { 
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('formRunner')
+    );
   }
 
   initForm(): FormGroup {
@@ -118,6 +132,7 @@ export class CreateRunnerComponent implements OnInit {
   }
 
   changeStep(step: number) {
+    this.loading = true
     switch (step) {
       case 0:
         this.progress = 0;
@@ -136,12 +151,13 @@ export class CreateRunnerComponent implements OnInit {
             .subscribe((response) => {
               if (response.data != null) {
                 this.runner = response.data;
-                this.goToRunnerData();
+                this.codeBackend = response.message
+                this.formModal.show();
               } else {
                 this.progress = 25;
                 this.step = 1;
               }
-            });
+            },null, () => this.loading = false);
         }
         break;
       case 2:
@@ -158,7 +174,6 @@ export class CreateRunnerComponent implements OnInit {
         .createRunner(this.runnerForm.value)
         .subscribe((response) => {
           if (response.code == 0) {
-            this.runner = response.data;
             alert(response.message);
             this.goToRunnerData();
           }
@@ -169,6 +184,14 @@ export class CreateRunnerComponent implements OnInit {
   goToRunnerData() {
     this._runnerService.setLocalRunner$(this.runner);
     this._router.navigate(['runnerData']);
+  }
+
+  handleValidCode(): void {
+    if (this.code === this.codeBackend) {
+      this.formModal.hide();
+      this.goToRunnerData()
+    }
+    else this.errorCode = true
   }
 
   //#region Validators

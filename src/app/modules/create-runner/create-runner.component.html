@@ -111,10 +111,10 @@
                 <button
                   type="button"
                   class="btn btn-primary borderRadius button"
-                  [disabled]="handleInvalidOne()"
+                  [disabled]="handleInvalidOne() || loading"
                   (click)="changeStep(1)"
                 >
-                  Siguiente
+                  {{loading ? 'Cargando... ' : 'Siguiente'}}
                 </button>
               </div>
             </div>
@@ -534,7 +534,7 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="staticBackdrop"
+  id="formRunner"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
@@ -544,7 +544,9 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          ¡Bienvenido de nuevo!
+        </h1>
         <button
           type="button"
           class="btn-close"
@@ -552,12 +554,32 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">...</div>
+      <div class="modal-body">
+        <p>
+          Ingresa el código enviado a tu correo electrónico para poder continuar
+        </p>
+        <div class="col-md-12">
+          <input
+            type="text"
+            class="form-control borderRadius"
+            placeholder="Ej. 1234"
+            [(ngModel)]="code"
+            (ngModelChange)="errorCode = false"
+            required
+          />
+          <ng-container *ngIf="errorCode">
+            <span style="color: red">Código incorrecto *</span>
+          </ng-container>
+          <ng-container *ngIf="!code && !errorCode">
+            <span style="color: red">Campo requerido *</span>
+          </ng-container>
+        </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-primary" (click)="handleValidCode()">Acceder</button>
       </div>
     </div>
   </div>

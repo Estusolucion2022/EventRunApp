@@ -3,10 +3,16 @@
     <div class="card-body">
       <div class="headerCard">
         <div class="start">
-          <h5>Reporte de inscripciones Asociacion De Atletismo Master Club Olimpus</h5>
+          <h5>
+            Reporte de inscripciones Asociacion De Atletismo Master Club Olimpus
+          </h5>
         </div>
         <div class="end">
-          <button type="button" class="btn btn-success borderRadius button" (click)="exportExcel()">
+          <button
+            type="button"
+            class="btn btn-success borderRadius button"
+            (click)="exportExcel()"
+          >
             <i class="bi bi-file-earmark-spreadsheet"></i> Exportar a Excel
           </button>
         </div>
@@ -30,16 +36,24 @@
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <tr *ngFor="let item of newReportData; index as i">
-            <th scope="row">{{this.indexPag[i] + 1}}</th>
-            <td>{{item.firstName}} {{item.lastName}}</td>
-            <td>{{item.documentNumber}}</td>
-            <td>{{item.phone}}</td>
-            <td>{{item.race}} {{item.category}}</td>
-            <td>{{item.registrationDate | date : "d/M/yy, h:mm a"}}</td>
-            <td>{{item.paymentMethod}}</td>
-            <td>{{item.detailsPayment}}</td>
-            <td>{{item.proofPayment}}</td>
+          <tr *ngFor="let item of newReportData; index as i" class="mouseEvent">
+            <th scope="row" (click)="dataClient(item)">
+              {{ this.indexPag[i] + 1 }}
+            </th>
+            <td (click)="dataClient(item)">
+              {{ item.firstName }} {{ item.lastName }}
+            </td>
+            <td (click)="dataClient(item)">{{ item.documentNumber }}</td>
+            <td (click)="dataClient(item)">{{ item.phone }}</td>
+            <td (click)="dataClient(item)">
+              {{ item.race }} {{ item.category }}
+            </td>
+            <td (click)="dataClient(item)">
+              {{ item.registrationDate | date : "d/M/yy, h:mm a" }}
+            </td>
+            <td (click)="dataClient(item)">{{ item.paymentMethod }}</td>
+            <td (click)="dataClient(item)">{{ item.detailsPayment }}</td>
+            <td (click)="dataClient(item)">{{ item.proofPayment }}</td>
           </tr>
         </tbody>
       </table>
@@ -49,21 +63,28 @@
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
         <li [ngClass]="pagNumber == 0 ? 'page-item disabled' : 'page-item'">
-          <a class="page-link" (click)="handlePaginator(pagNumber - 1)">Previous</a>
+          <a class="page-link" (click)="handlePaginator(pagNumber - 1)"
+            >Previous</a
+          >
         </li>
-        <li *ngFor="let item of [].constructor(getNumberPages()); let i = index">
-          <a class="page-link" (click)="handlePaginator(i)">{{i + 1}}</a>
+        <li
+          *ngFor="let item of [].constructor(getNumberPages()); let i = index"
+        >
+          <a class="page-link" (click)="handlePaginator(i)">{{ i + 1 }}</a>
         </li>
-        <li [ngClass]="getNumberPages() === pagNumber + 1 ? 'page-item disabled' : 'page-item'">
+        <li
+          [ngClass]="
+            getNumberPages() === pagNumber + 1
+              ? 'page-item disabled'
+              : 'page-item'
+          "
+        >
           <a class="page-link" (click)="handlePaginator(pagNumber + 1)">Next</a>
         </li>
       </ul>
     </nav>
   </div>
 </div>
-
-
-
 
 <!-- Tabla oculta para exportar a excel -->
 <table hidden class="table" id="tblExportInscriptions">
@@ -102,35 +123,73 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of reportInscriptionData">
-      <td>{{item.registrationDate | date : "d/M/yy, h:mm a"}}</td>
-      <td>{{item.documentType}}</td>
-      <td>{{item.documentNumber}}</td>
-      <td>{{item.firstName}}</td>
-      <td>{{item.lastName}}</td>
-      <td>{{item.gender}}</td>
-      <td>{{item.birthDate | date : "d/M/yy"}}</td>
-      <td>{{item.age}}</td>
-      <td>{{item.bloodType}}</td>
-      <td>{{item.email}}</td>
-      <td>{{item.phone}}</td>
-      <td>{{item.address}}</td>
-      <td>{{item.city}}</td>
-      <td>{{item.country}}</td>
-      <td>{{item.airlineCityOrigin}}</td>
-      <td>{{item.departureDate | date : "d/M/yy"}}</td>
-      <td>{{item.returnDate | date : "d/M/yy"}}</td>
-      <td>{{item.paymentMethod}}</td>
-      <td>{{item.detailsPayment}}</td>
-      <td>{{item.proofPayment}}</td>
-      <td>{{item.tshirtSize}}</td>
-      <td>{{item.authorizationListEnrolled ? 'Si' : 'No'}}</td>
-      <td>{{item.club}}</td>
-      <td>{{item.observations}}</td>
-      <td>{{item.emergencyContactName}}</td>
-      <td>{{item.emergencyContactPhone}}</td>
-      <td>{{item.race}}</td>
-      <td>{{item.category}}</td>
-      <td>{{item.categoryRace}}</td>
+      <td>{{ item.registrationDate | date : "d/M/yy, h:mm a" }}</td>
+      <td>{{ item.documentType }}</td>
+      <td>{{ item.documentNumber }}</td>
+      <td>{{ item.firstName }}</td>
+      <td>{{ item.lastName }}</td>
+      <td>{{ item.gender }}</td>
+      <td>{{ item.birthDate | date : "d/M/yy" }}</td>
+      <td>{{ item.age }}</td>
+      <td>{{ item.bloodType }}</td>
+      <td>{{ item.email }}</td>
+      <td>{{ item.phone }}</td>
+      <td>{{ item.address }}</td>
+      <td>{{ item.city }}</td>
+      <td>{{ item.country }}</td>
+      <td>{{ item.airlineCityOrigin }}</td>
+      <td>{{ item.departureDate | date : "d/M/yy" }}</td>
+      <td>{{ item.returnDate | date : "d/M/yy" }}</td>
+      <td>{{ item.paymentMethod }}</td>
+      <td>{{ item.detailsPayment }}</td>
+      <td>{{ item.proofPayment }}</td>
+      <td>{{ item.tshirtSize }}</td>
+      <td>{{ item.authorizationListEnrolled ? "Si" : "No" }}</td>
+      <td>{{ item.club }}</td>
+      <td>{{ item.observations }}</td>
+      <td>{{ item.emergencyContactName }}</td>
+      <td>{{ item.emergencyContactPhone }}</td>
+      <td>{{ item.race }}</td>
+      <td>{{ item.category }}</td>
+      <td>{{ item.categoryRace }}</td>
     </tr>
   </tbody>
 </table>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="modalReport"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar corredor</h1>
+        <button
+        (click)="hanldeNULLDataForm()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body"></div>
+      <app-form-report></app-form-report>
+      <div class="modal-footer">
+        <button type="button" (click)="hanldeNULLDataForm()" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <!-- <button type="button" class="btn btn-success">
+          Actualizar
+        </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Modal -->
