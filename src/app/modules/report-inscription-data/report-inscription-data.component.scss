@@ -19,3 +19,10 @@
 .paginator {
  margin-top: 10px;
 }
+
+.mouseEvent{
+    cursor: pointer;
+    &:hover th, &:hover td {
+        background-color: #f1efef;
+    }
+}
