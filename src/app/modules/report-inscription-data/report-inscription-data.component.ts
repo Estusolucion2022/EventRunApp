@@ -19,10 +19,12 @@ declare var window: any;
 })
 export class ReportInscriptionDataComponent implements OnInit {
   reportInscriptionData: ReportInscriptionData[] = [];
+  filterReportData: ReportInscriptionData[] = [];
   newReportData: ReportInscriptionData[] = [];
   indexPag: number[] = [];
   pagNumber: number = 0;
   formModal!: any;
+  filter!: string;
   documentTypes: OptionSelect[] = [];
   private _inscriptionService = inject(InscriptionService);
   private _userService = inject(UserService);
@@ -35,10 +37,10 @@ export class ReportInscriptionDataComponent implements OnInit {
   ngOnInit(): void {
     this.confirmUser();
     this.initModal();
-    this.handleNotDataRunner()
+    this.handleNotDataRunner();
   }
 
-  initModal(): void { 
+  initModal(): void {
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('modalReport')
     );
@@ -59,6 +61,7 @@ export class ReportInscriptionDataComponent implements OnInit {
     this._inscriptionService.getReportInscription().subscribe((response) => {
       if (response.code == 0) {
         this.reportInscriptionData = response.data;
+        this.filterReportData = response.data;
         this.handlePaginator(0);
       }
     });
@@ -69,14 +72,14 @@ export class ReportInscriptionDataComponent implements OnInit {
 
   handlePaginator(pag: number): void {
     this.pagNumber = pag;
-    this.getIndexPages()
+    this.getIndexPages();
     let numberPag = this.getNumberPages();
     if (numberPag < this.pagNumber + 1) return;
     this.newReportData = [];
     let startPag = this.pagNumber !== 0 ? this.pagNumber * 10 : this.pagNumber;
     let endPag =
       this.pagNumber !== 0 ? this.pagNumber * 10 + 10 : this.pagNumber + 10;
-    let data = this.reportInscriptionData;
+    let data = this.filterReportData;
     let endItems =
       data.length - endPag < 0 ? data.length - endPag + endPag : endPag;
 
@@ -86,8 +89,8 @@ export class ReportInscriptionDataComponent implements OnInit {
   }
 
   getNumberPages(): number {
-    let data = this.reportInscriptionData;
-    let numberPages = (data.length / 10) + 0.4
+    let data = this.filterReportData;
+    let numberPages = data.length / 10 + 0.4;
     return Math.round(numberPages);
   }
 
@@ -103,22 +106,85 @@ export class ReportInscriptionDataComponent implements OnInit {
     return this.indexPag;
   }
 
-  dataClient(data: ReportInscriptionData){
-    const typeDocument = this.documentTypes.find(x => x.text == data.documentType)?.value
-    this._runnerService.searchRunner(data.documentNumber, typeDocument as string).subscribe((res) => {
-      this._trigger.setRunnerForm(res.data)
-    })
+  dataClient(data: ReportInscriptionData) {
+    if (data.idRunner === 0) return;
+    const typeDocument = this.documentTypes.find(
+      (x) => x.text == data.documentType
+    )?.value;
+    this._runnerService
+      .searchRunner(data.documentNumber, typeDocument as string)
+      .subscribe((res) => {
+        this._trigger.setRunnerForm(res.data);
+      });
     // this._trigger.setRunnerForm(data)
     this.formModal.show();
   }
 
-  handleNotDataRunner(){
+  handleNotDataRunner() {
     this._trigger.runnerForm$.subscribe((res) => {
       if (!res) {
         this.initData();
         this.formModal.hide();
       }
-    })
+    });
+  }
+
+  hanldeFilter(): void {
+    console.log(this.reportInscriptionData[0].proofPayment);
+    const data = this.reportInscriptionData.filter(
+      (x) =>
+        x.firstName.toUpperCase().match(this.filter.toUpperCase()) ||
+        x.lastName.toUpperCase().match(this.filter.toUpperCase()) ||
+        x.documentNumber?.toString().match(this.filter) ||
+        x.phone.match(this.filter) ||
+        x.race.toUpperCase().match(this.filter.toUpperCase()) ||
+        x.category.toUpperCase().match(this.filter.toUpperCase()) ||
+        x.registrationDate.toString().match(this.filter) ||
+        x.paymentMethod.toUpperCase().match(this.filter.toUpperCase()) ||
+        x.detailsPayment.toUpperCase().match(this.filter.toUpperCase()) ||
+        x.proofPayment?.toUpperCase().match(this.filter.toUpperCase())
+    );
+    if (data.length === 0) this.filterReportData = this.mapNotFoundData();
+    else this.filterReportData = data;
+    this.handlePaginator(0);
+  }
+
+  mapNotFoundData(): ReportInscriptionData[] {
+    return [
+      {
+        firstName: 'No se encontraron resultados',
+        idRunner: 0,
+        idRace: 0,
+        race: '',
+        registrationDate: new Date(),
+        documentType: '',
+        documentNumber: 0,
+        lastName: '',
+        gender: '',
+        birthDate: new Date(),
+        age: 0,
+        bloodType: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        country: '',
+        airlineCityOrigin: '',
+        departureDate: new Date(),
+        returnDate: new Date(),
+        paymentMethod: '',
+        proofPayment: '',
+        detailsPayment: '',
+        tshirtSize: '',
+        authorizationListEnrolled: false,
+        club: '',
+        observations: '',
+        emergencyContactName: '',
+        emergencyContactPhone: '',
+        category: '',
+        categoryRace: '',
+      },
+    ];
   }
 
   exportExcel() {
@@ -134,7 +200,8 @@ export class ReportInscriptionDataComponent implements OnInit {
     XLSX.writeFile(book, 'Inscripciones_' + today + '.xlsx');
   }
 
-  hanldeNULLDataForm(): void{
+  hanldeNULLDataForm(): void {
     this._trigger.setRunnerForm(null);
+    this.filter = '';
   }
 }

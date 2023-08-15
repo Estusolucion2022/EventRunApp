@@ -19,6 +19,16 @@
       </div>
     </div>
   </div>
+  <br>
+  <div class="col">
+    <input
+      type="text"
+      class="form-control borderRadius"
+      [(ngModel)]="filter"
+      placeholder="Búsqueda..."
+      (ngModelChange)="hanldeFilter()"
+    />
+  </div>
   <div class="card">
     <div class="card-body">
       <table class="table" id="tblInscriptions">
