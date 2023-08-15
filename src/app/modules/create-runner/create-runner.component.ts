@@ -43,10 +43,10 @@ export class CreateRunnerComponent implements OnInit {
   ngOnInit(): void {
     this.runnerForm = this.initForm();
     this.initSelects();
-    this.initModal()
+    this.initModal();
   }
 
-  initModal(): void { 
+  initModal(): void {
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('formRunner')
     );
@@ -132,13 +132,13 @@ export class CreateRunnerComponent implements OnInit {
   }
 
   changeStep(step: number) {
-    this.loading = true
     switch (step) {
       case 0:
         this.progress = 0;
         this.step = 0;
         break;
       case 1:
+        this.loading = true;
         if (
           this.runnerForm.get('documentNumber') &&
           this.runnerForm.get('codeDocumentType')
@@ -148,23 +148,27 @@ export class CreateRunnerComponent implements OnInit {
               this.runnerForm.get('documentNumber')?.value,
               this.runnerForm.get('codeDocumentType')?.value
             )
-            .subscribe((response) => {
-              if (response.data != null) {
-                this.runner = response.data;
-                this.codeBackend = response.message
-                this.formModal.show();
-              } else {
-                this.progress = 25;
-                this.step = 1;
-              }
-            },null, () => this.loading = false);
+            .subscribe(
+              (response) => {
+                if (response.data != null) {
+                  this.runner = response.data;
+                  this.codeBackend = response.message;
+                  this.formModal.show();;
+                } else {
+                  this.progress = 25;
+                  this.step = 1;
+                }
+              },
+              null,
+              () => (this.loading = false)
+            );
         }
         break;
       case 2:
         this.progress = 50;
         this.step = 2;
         break;
-    }
+      }
   }
 
   onSubmit(): void {
@@ -189,9 +193,8 @@ export class CreateRunnerComponent implements OnInit {
   handleValidCode(): void {
     if (this.code === this.codeBackend) {
       this.formModal.hide();
-      this.goToRunnerData()
-    }
-    else this.errorCode = true
+      this.goToRunnerData();
+    } else this.errorCode = true;
   }
 
   //#region Validators
@@ -240,7 +243,10 @@ export class CreateRunnerComponent implements OnInit {
         this.handleValidateRepeatControl('email', 'repeatEmail');
         break;
       case 'Document':
-        this.handleValidateRepeatControl('documentNumber', 'repeatDocumentNumber');
+        this.handleValidateRepeatControl(
+          'documentNumber',
+          'repeatDocumentNumber'
+        );
         break;
 
       default:
