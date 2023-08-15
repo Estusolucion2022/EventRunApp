@@ -13,6 +13,8 @@ import { Runner } from 'src/app/data/interfaces/runner.model';
 import { ParametryService } from 'src/app/data/services/parametry.service';
 import { RunnerService } from 'src/app/data/services/runner.service';
 
+declare var window: any;
+
 @Component({
   selector: 'app-create-runner',
   templateUrl: './create-runner.component.html',
@@ -32,10 +34,22 @@ export class CreateRunnerComponent implements OnInit {
   cities: OptionSelect[] = [];
   countries: OptionSelect[] = [];
   genders: OptionSelect[] = [];
+  formModal!: any;
+  code!: string;
+  codeBackend: string = '';
+  errorCode: boolean = false;
+  loading: boolean = false;
 
   ngOnInit(): void {
     this.runnerForm = this.initForm();
     this.initSelects();
+    this.initModal();
+  }
+
+  initModal(): void {
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('formRunner')
+    );
   }
 
   initForm(): FormGroup {
@@ -124,6 +138,7 @@ export class CreateRunnerComponent implements OnInit {
         this.step = 0;
         break;
       case 1:
+        this.loading = true;
         if (
           this.runnerForm.get('documentNumber') &&
           this.runnerForm.get('codeDocumentType')
@@ -133,22 +148,27 @@ export class CreateRunnerComponent implements OnInit {
               this.runnerForm.get('documentNumber')?.value,
               this.runnerForm.get('codeDocumentType')?.value
             )
-            .subscribe((response) => {
-              if (response.data != null) {
-                this.runner = response.data;
-                this.goToRunnerData();
-              } else {
-                this.progress = 25;
-                this.step = 1;
-              }
-            });
+            .subscribe(
+              (response) => {
+                if (response.data != null) {
+                  this.runner = response.data;
+                  this.codeBackend = response.message;
+                  this.formModal.show();;
+                } else {
+                  this.progress = 25;
+                  this.step = 1;
+                }
+              },
+              null,
+              () => (this.loading = false)
+            );
         }
         break;
       case 2:
         this.progress = 50;
         this.step = 2;
         break;
-    }
+      }
   }
 
   onSubmit(): void {
@@ -158,7 +178,6 @@ export class CreateRunnerComponent implements OnInit {
         .createRunner(this.runnerForm.value)
         .subscribe((response) => {
           if (response.code == 0) {
-            this.runner = response.data;
             alert(response.message);
             this.goToRunnerData();
           }
@@ -169,6 +188,13 @@ export class CreateRunnerComponent implements OnInit {
   goToRunnerData() {
     this._runnerService.setLocalRunner$(this.runner);
     this._router.navigate(['runnerData']);
+  }
+
+  handleValidCode(): void {
+    if (this.code === this.codeBackend) {
+      this.formModal.hide();
+      this.goToRunnerData();
+    } else this.errorCode = true;
   }
 
   //#region Validators
@@ -217,7 +243,10 @@ export class CreateRunnerComponent implements OnInit {
         this.handleValidateRepeatControl('email', 'repeatEmail');
         break;
       case 'Document':
-        this.handleValidateRepeatControl('documentNumber', 'repeatDocumentNumber');
+        this.handleValidateRepeatControl(
+          'documentNumber',
+          'repeatDocumentNumber'
+        );
         break;
 
       default:

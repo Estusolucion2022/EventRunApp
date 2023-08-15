@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { OptionSelect } from '../interfaces/option-select.model';
+import { Runner } from '../interfaces/runner.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,13 @@ export class TriggerService {
   private _countries = new BehaviorSubject<OptionSelect[] | null>(null);
   private _genders = new BehaviorSubject<OptionSelect[] | null>(null);
   private _payMethods = new BehaviorSubject<OptionSelect[] | null>(null);
+  private _runnerForm = new BehaviorSubject<Runner | null>(null);
   documentTypes$ = this._documentTypes.asObservable();
   cities$ = this._cities.asObservable();
   countries$ = this._countries.asObservable();
   genders$ = this._genders.asObservable();
   payMethods$ = this._payMethods.asObservable();
+  runnerForm$ = this._runnerForm.asObservable();
 
   setDocumentTypes(rq : OptionSelect[] | null){
     this._documentTypes.next(rq);
@@ -37,4 +40,10 @@ export class TriggerService {
   setPayMethods(rq : OptionSelect[] | null){
     this._payMethods.next(rq);
   }
+
+  setRunnerForm(rq: Runner | null){
+    this._runnerForm.next(rq);
+  }
+
+
 }

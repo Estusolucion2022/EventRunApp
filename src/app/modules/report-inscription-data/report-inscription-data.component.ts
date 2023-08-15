@@ -1,13 +1,17 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { OptionSelect } from 'src/app/data/interfaces/option-select.model';
 import { ReportInscriptionData } from 'src/app/data/interfaces/report-inscription-data.model';
-import { ResponseApi } from 'src/app/data/interfaces/response-api.model';
 import { User } from 'src/app/data/interfaces/user.model';
 import { InscriptionService } from 'src/app/data/services/inscription.service';
+import { ParametryService } from 'src/app/data/services/parametry.service';
+import { RunnerService } from 'src/app/data/services/runner.service';
+import { TriggerService } from 'src/app/data/services/trigger.service';
 import { UserService } from 'src/app/data/services/user.service';
 import * as XLSX from 'xlsx';
 
+declare var window: any;
 @Component({
   selector: 'app-report-inscription-data',
   templateUrl: './report-inscription-data.component.html',
@@ -18,14 +22,26 @@ export class ReportInscriptionDataComponent implements OnInit {
   newReportData: ReportInscriptionData[] = [];
   indexPag: number[] = [];
   pagNumber: number = 0;
+  formModal!: any;
+  documentTypes: OptionSelect[] = [];
   private _inscriptionService = inject(InscriptionService);
   private _userService = inject(UserService);
+  private _runnerService = inject(RunnerService);
+  private _parametryService = inject(ParametryService);
   private _router = inject(Router);
+  private _trigger = inject(TriggerService);
 
   private _user: User | null = {} as User;
-
   ngOnInit(): void {
     this.confirmUser();
+    this.initModal();
+    this.handleNotDataRunner()
+  }
+
+  initModal(): void { 
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('modalReport')
+    );
   }
 
   confirmUser() {
@@ -45,6 +61,9 @@ export class ReportInscriptionDataComponent implements OnInit {
         this.reportInscriptionData = response.data;
         this.handlePaginator(0);
       }
+    });
+    this._parametryService.getParametryDocumentTypes().subscribe((data) => {
+      this.documentTypes = data as OptionSelect[];
     });
   }
 
@@ -84,6 +103,24 @@ export class ReportInscriptionDataComponent implements OnInit {
     return this.indexPag;
   }
 
+  dataClient(data: ReportInscriptionData){
+    const typeDocument = this.documentTypes.find(x => x.text == data.documentType)?.value
+    this._runnerService.searchRunner(data.documentNumber, typeDocument as string).subscribe((res) => {
+      this._trigger.setRunnerForm(res.data)
+    })
+    // this._trigger.setRunnerForm(data)
+    this.formModal.show();
+  }
+
+  handleNotDataRunner(){
+    this._trigger.runnerForm$.subscribe((res) => {
+      if (!res) {
+        this.initData();
+        this.formModal.hide();
+      }
+    })
+  }
+
   exportExcel() {
     let tableElement = document.getElementById('tblExportInscriptions');
     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tableElement);
@@ -95,5 +132,9 @@ export class ReportInscriptionDataComponent implements OnInit {
     let today = datepipe.transform(new Date(), 'dd-MMM-YYYY');
 
     XLSX.writeFile(book, 'Inscripciones_' + today + '.xlsx');
+  }
+
+  hanldeNULLDataForm(): void{
+    this._trigger.setRunnerForm(null);
   }
 }

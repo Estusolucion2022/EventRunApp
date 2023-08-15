@@ -3,6 +3,7 @@ export class Constants{
     //public static URL_API = "https://www.siscov.net/zonacliente/registroapi/api/";
     public static ENDPOINT_SAVE_RUNNER = "Runners/Save";
     public static ENDPOINT_SEARCH_RUNNER = "Runners/Search";
+    public static ENDPOINT_UPDATE_RUNNER = "Runners/Update";
     public static ENDPOINT_SAVE_INSCRIPTION = "InscriptionData/Save";
     public static ENDPOINT_GET_INSCRIPTION = "InscriptionData/GetInsciptionData";
     public static ENDPOINT_GET_REPORT_INSCRIPTION = "InscriptionData/GetReportInsciptionData";

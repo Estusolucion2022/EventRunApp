@@ -99,7 +99,7 @@ export class CreateInscriptionDataComponent implements OnInit {
             this._inscriptionService.updateInsciption.emit(true);
             this.formModal.hide();
           }
-          if (response.code == 2) {
+          if (response.code == 2 || response.code == 4) {
             alert(response.message);
           }
         });
