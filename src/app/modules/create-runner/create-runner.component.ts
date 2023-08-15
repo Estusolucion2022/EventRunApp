@@ -153,7 +153,8 @@ export class CreateRunnerComponent implements OnInit {
                 if (response.data != null) {
                   this.runner = response.data;
                   this.codeBackend = response.message;
-                  this.formModal.show();;
+                  // this.formModal.show();
+                  this.goToRunnerData();
                 } else {
                   this.progress = 25;
                   this.step = 1;
@@ -178,8 +179,9 @@ export class CreateRunnerComponent implements OnInit {
         .createRunner(this.runnerForm.value)
         .subscribe((response) => {
           if (response.code == 0) {
-            alert(response.message);
+            this.runner = response.data;
             this.goToRunnerData();
+            alert(response.message);
           }
         });
     }

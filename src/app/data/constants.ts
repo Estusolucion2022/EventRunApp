@@ -1,6 +1,6 @@
 export class Constants{
-    public static URL_API = "https://localhost:7071/api/";
-    //public static URL_API = "https://www.siscov.net/zonacliente/registroapi/api/";
+    //public static URL_API = "https://localhost:7071/api/";
+    public static URL_API = "https://www.siscov.net/zonacliente/registroapi/api/";
     public static ENDPOINT_SAVE_RUNNER = "Runners/Save";
     public static ENDPOINT_SEARCH_RUNNER = "Runners/Search";
     public static ENDPOINT_UPDATE_RUNNER = "Runners/Update";
