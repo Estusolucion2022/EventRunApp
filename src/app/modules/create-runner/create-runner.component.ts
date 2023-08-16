@@ -153,8 +153,7 @@ export class CreateRunnerComponent implements OnInit {
                 if (response.data != null) {
                   this.runner = response.data;
                   this.codeBackend = response.message;
-                  // this.formModal.show();
-                  this.goToRunnerData();
+                  this.formModal.show();
                 } else {
                   this.progress = 25;
                   this.step = 1;
