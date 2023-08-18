@@ -88,7 +88,7 @@ export class CreateRunnerComponent implements OnInit {
           this.handleValidateRepeat('phone'),
         ],
       ],
-      birthDate: ['', [Validators.required]],
+      birthDate: ['', [Validators.required, this.handleValidateDate()]],
       codeDocumentType: ['CC', [Validators.required]],
       //documentNumber: ['79856908', [Validators.required]],
       documentNumber: [
@@ -276,6 +276,22 @@ export class CreateRunnerComponent implements OnInit {
 
       if (controlValue != controlRepeat) {
         return { repeatValidation: true };
+      }
+
+      return null;
+    };
+  }
+
+  handleValidateDate(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const controlValue = <string>control.value;
+      if (!controlValue) return null;
+
+      let dateNow = new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDate())
+      const minDate = Math.round((dateNow.getTime() - new Date(controlValue).getTime()) / (1000*60*60*24));
+
+      if (minDate < 0) {
+        return { dateValidation: true };
       }
 
       return null;

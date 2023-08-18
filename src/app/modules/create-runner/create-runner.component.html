@@ -210,6 +210,12 @@
                 >
                   <span style="color: red">Campo Requerido *</span>
                 </ng-container>
+                <ng-container
+                  *ngIf="!runnerForm.get('birthDate')?.errors?.['required']
+                  && runnerForm.get('birthDate')?.errors?.['dateValidation']"
+                >
+                  <span style="color: red">La edad minima son 18 *</span>
+                </ng-container>
               </div>
             </div>
             <div class="row">
