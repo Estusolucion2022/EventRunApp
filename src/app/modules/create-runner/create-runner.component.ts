@@ -287,10 +287,12 @@ export class CreateRunnerComponent implements OnInit {
       const controlValue = <string>control.value;
       if (!controlValue) return null;
 
-      let dateNow = new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDate())
+      let dateNow = new Date(new Date().getFullYear() - 7, new Date().getMonth(), new Date().getDate())
+      let dateMax = new Date(new Date(controlValue).getFullYear() + 90, new Date(controlValue).getMonth(), new Date(controlValue).getDate())
       const minDate = Math.round((dateNow.getTime() - new Date(controlValue).getTime()) / (1000*60*60*24));
+      const maxDate = Math.round((dateMax.getTime() - new Date().getTime()) / (1000*60*60*24));
 
-      if (minDate < 0) {
+      if (minDate < 0 || maxDate < 0) {
         return { dateValidation: true };
       }
 
