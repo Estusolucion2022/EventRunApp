@@ -55,7 +55,7 @@ export class TriggerService {
   //#region tools methods
 
   convertDate(date: Date): string {
-    return date.toString()?.split('T')[0];
+    return date?.toString()?.split('T')[0];
 }
 
   //#endregion
