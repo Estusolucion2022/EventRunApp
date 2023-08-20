@@ -25,4 +25,8 @@ export class InscriptionService {
   getReportInscription(): Observable<ResponseApi>{
     return this._http.get<ResponseApi>(Constants.URL_API + Constants.ENDPOINT_GET_REPORT_INSCRIPTION); 
   }
+
+  updateInscription(inscription: InscriptionData): Observable<ResponseApi>{
+    return this._http.put<ResponseApi>(Constants.URL_API + Constants.ENDPOINT_UPDATE_INSCRIPTION, inscription); 
+  }
 }

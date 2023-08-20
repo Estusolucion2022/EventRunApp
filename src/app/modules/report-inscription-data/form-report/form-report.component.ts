@@ -57,7 +57,7 @@ export class FormReportComponent {
         lastName: res.lastName,
         email: res.email,
         phone: res.phone,
-        birthDate: res.birthDate,
+        birthDate: this._trigger.convertDate(res.birthDate),
         codeCity: res.codeCity,
         address: res.address,
         bloodType: res.bloodType,

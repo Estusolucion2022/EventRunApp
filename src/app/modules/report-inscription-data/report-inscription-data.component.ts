@@ -3,6 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { OptionSelect } from 'src/app/data/interfaces/option-select.model';
 import { ReportInscriptionData } from 'src/app/data/interfaces/report-inscription-data.model';
+import { ResponseApi } from 'src/app/data/interfaces/response-api.model';
 import { User } from 'src/app/data/interfaces/user.model';
 import { InscriptionService } from 'src/app/data/services/inscription.service';
 import { ParametryService } from 'src/app/data/services/parametry.service';
@@ -21,11 +22,13 @@ export class ReportInscriptionDataComponent implements OnInit {
   reportInscriptionData: ReportInscriptionData[] = [];
   filterReportData: ReportInscriptionData[] = [];
   newReportData: ReportInscriptionData[] = [];
+  data!: ReportInscriptionData
   indexPag: number[] = [];
   pagNumber: number = 0;
   formModal!: any;
   filter!: string;
   documentTypes: OptionSelect[] = [];
+  vistas: boolean[] = [true, false, false]
   private _inscriptionService = inject(InscriptionService);
   private _userService = inject(UserService);
   private _runnerService = inject(RunnerService);
@@ -108,16 +111,32 @@ export class ReportInscriptionDataComponent implements OnInit {
 
   dataClient(data: ReportInscriptionData) {
     if (data.idRunner === 0) return;
+    this.data = data;
+    this.formModal.show();
+  }
+
+  handleModalType(typeModal: string): void {
+    if (typeModal === 'Runner') this.handleIsRunner(this.data)
+    else this.handleIsRace(this.data)
+  }
+
+  handleIsRunner(data: ReportInscriptionData): void {
     const typeDocument = this.documentTypes.find(
       (x) => x.text == data.documentType
-    )?.value;
-    this._runnerService
+      )?.value;
+      this._runnerService
       .searchRunner(data.documentNumber, typeDocument as string)
       .subscribe((res) => {
         this._trigger.setRunnerForm(res.data);
       });
-    // this._trigger.setRunnerForm(data)
-    this.formModal.show();
+    this.vistas = [false, true, false]
+  }
+
+  handleIsRace(data: ReportInscriptionData): void {
+    this._inscriptionService.getInscription(data.idRunner).subscribe((res: ResponseApi) => {
+      this._trigger.setRaceForm(res.data[0])
+    })
+    this.vistas = [false, false, true]
   }
 
   handleNotDataRunner() {
@@ -125,6 +144,14 @@ export class ReportInscriptionDataComponent implements OnInit {
       if (!res) {
         this.initData();
         this.formModal.hide();
+        this.vistas = [true, false, false]
+      }
+    });
+    this._trigger.raceForm$.subscribe((res) => {
+      if (!res) {
+        this.initData();
+        this.formModal.hide();
+        this.vistas = [true, false, false]
       }
     });
   }
@@ -201,6 +228,7 @@ export class ReportInscriptionDataComponent implements OnInit {
   }
 
   hanldeNULLDataForm(): void {
+    this.vistas = [true, false, false]
     this._trigger.setRunnerForm(null);
     this.filter = '';
   }

@@ -268,7 +268,7 @@
           Cancelar
         </button>
         <button type="button" class="btn btn-success" (click)="onSubmit()">
-          Enviar inscripción
+          {{ loading ? 'Cargando...' : 'Enviar inscripción' }}
         </button>
       </div>
     </div>

@@ -1,0 +1,242 @@
+<form [formGroup]="inscriptionForm">
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="FormControlInput1" class="form-label">Carrera</label>
+        <ng-container
+          *ngIf="inscriptionForm.get('idRace')?.errors?.['required']"
+        >
+          <span style="color: red"> Requerido *</span>
+        </ng-container>
+        <select
+          class="form-select borderRadius"
+          formControlName="idRace"
+          required
+        >
+          <option value="">Seleccione una opción ...</option>
+          <option *ngFor="let race of races" [value]="race.value">
+            {{ race.text }}
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput1" class="form-label"
+          >Distancia Elegida</label
+        >
+        <ng-container
+          *ngIf="inscriptionForm.get('idCategory')?.errors?.['required']"
+        >
+          <span style="color: red"> Requerido *</span>
+        </ng-container>
+        <select
+          class="form-select borderRadius"
+          formControlName="idCategory"
+          required
+        >
+          <option value="">Seleccione una opción ...</option>
+          <option
+            *ngFor="let category of categories"
+            [value]="category.value"
+          >
+            {{ category.text }}
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput8" class="form-label">Club-Código</label>
+        <input
+          type="text"
+          class="form-control borderRadius"
+          placeholder="Ej. Marinos (Opcional)"
+          formControlName="club"
+        />
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput8" class="form-label"
+          >Aerolineade Origen</label
+        >
+        <input
+          type="text"
+          class="form-control borderRadius"
+          placeholder="Ej. Airline"
+          formControlName="airlineCityOrigin"
+          maxlength="20"
+        />
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput2" class="form-label"
+          >Fecha de ida</label
+        >
+        <input
+          type="date"
+          class="form-control borderRadius"
+          formControlName="departureDate"
+        />
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput3" class="form-label"
+          >Fecha de regreso</label
+        >
+        <input
+          type="date"
+          class="form-control borderRadius"
+          formControlName="returnDate"
+        />
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput4" class="form-label"
+          >Forma de Pago</label
+        >
+        <ng-container
+          *ngIf="inscriptionForm.get('idPaymentMethod')?.errors?.['required']"
+        >
+          <span style="color: red"> Requerido *</span>
+        </ng-container>
+        <select
+          class="form-select borderRadius"
+          formControlName="idPaymentMethod"
+          required
+        >
+          <option value="">Seleccione una opción ...</option>
+          <option
+            *ngFor="let paymethod of payMethods"
+            [value]="paymethod.value"
+          >
+            {{ paymethod.text }}
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput5" class="form-label"
+          >Comprobante de Pago</label
+        >
+        <input
+          type="text"
+          class="form-control borderRadius"
+          placeholder="Ej. 123456789"
+          formControlName="proofPayment"
+          maxlength="20"
+        />
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput6" class="form-label"
+          >Código Asignado</label
+        >
+        <ng-container
+          *ngIf="inscriptionForm.get('detailsPayment')?.errors?.['required']"
+        >
+          <span style="color: red"> Requerido *</span>
+        </ng-container>
+        <input
+          type="text"
+          class="form-control borderRadius"
+          placeholder="Ej. NA342"
+          formControlName="detailsPayment"
+          maxlength="7"
+          required
+        />
+        <ng-container
+          *ngIf="!inscriptionForm.get('detailsPayment')?.errors?.['required']
+        && inscriptionForm.get('detailsPayment')?.errors?.['pattern']
+        "
+        >
+          <span style="color: red"> Carácter no válido *</span>
+        </ng-container>
+      </div>
+      <div class="col-sm-6">
+        <label for="FormControlInput7" class="form-label"
+          >Talla camiseta</label
+        >
+        <ng-container
+          *ngIf="inscriptionForm.get('tshirtSize')?.errors?.['required']"
+        >
+          <span style="color: red"> Requerido *</span>
+        </ng-container>
+        <select
+          id="tallaCamiseta"
+          name="tallaCamiseta"
+          class="form-select borderRadius"
+          formControlName="tshirtSize"
+          required
+        >
+          <option [value]="null">Selecciona una opción ...</option>
+          <!--<option value="XS">XS</option>-->
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <!--<option value="XXL">XXL</option>-->
+        </select>
+      </div>
+      <div class="col-sm-12">
+        <label for="FormControlInput9" class="form-label"
+          >Observaciones</label
+        >
+        <textarea
+          class="form-control borderRadius"
+          id="exampleFormControlTextarea1"
+          formControlName="observations"
+          rows="1"
+          maxlength="200"
+        ></textarea>
+      </div>
+    </div>
+    <div class="checkBox row">
+      <div class="col-sm-12 form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          placeholder="Ej. M"
+          formControlName="authorizationListEnrolled"
+        />
+        <label for="FormControlInput10" class="form-check-label">
+          Autorizo que mi nombre sea publicado en la lista de inscritos.
+        </label>
+      </div>
+      <div class="col-sm-12 form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          placeholder="Ej. M"
+          formControlName="acceptanceTyC"
+          required
+        />
+        <label for="FormControlInput10" class="form-check-label">
+          <p>
+            Acepto plenamente lo estipulado en la
+            <a
+              href="https://clubol.org/sanandres32k/wp-content/uploads/2023/08/declaracion-de-liberacion-de-responsabilidades-sanandres32k.co_.pdf"
+              target="_blank"
+              >Declaración de Liberación de Responsabilidades</a
+            >,
+            <a
+              href="https://clubol.org/sanandres32k/wp-content/uploads/2023/08/reglamento-de-la-carrera-sanandres32k.co_.pdf"
+              target="_blank"
+              >Reglamento</a
+            >-Términos de Participación en la Carrera y demás
+            <a
+              href="https://clubol.org/sanandres32k/wp-content/uploads/2023/08/condiciones.pdf"
+              target="_blank"
+              >Condiciones</a
+            >
+            establecidas en el Sitio Web.
+            <ng-container
+              *ngIf="inscriptionForm.get('acceptanceTyC')?.errors?.['required']"
+            >
+              <span style="color: red">Campo Requerido *</span>
+            </ng-container>
+          </p>
+        </label>
+        <span></span>
+      </div>
+    </div>
+    <div class="col d-grid gap-2">
+      <button
+        type="button"
+        class="btn btn-primary borderRadius button colorPrimary"
+        [disabled]="inscriptionForm.invalid"
+        (click)="onSubmit()"
+      >
+      {{loading ? 'Cargando...' : 'Actualizar'}}
+      </button>
+    </div>
+  </form>

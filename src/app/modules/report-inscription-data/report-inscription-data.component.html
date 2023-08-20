@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <br>
+  <br />
   <div class="col">
     <input
       type="text"
@@ -40,7 +40,7 @@
             <th scope="col">Telefono</th>
             <th scope="col">Carrera</th>
             <th scope="col">Fecha Registro</th>
-            <th scope="col">Froma de  Pago</th>
+            <th scope="col">Forma de Pago</th>
             <th scope="col">Código asignado</th>
             <th scope="col">Comprobante Pago</th>
           </tr>
@@ -179,19 +179,58 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar corredor</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          Editar 
+          {{ vistas[1] ? 'corredor' : ''}}
+          {{ vistas[2] ? 'carrera' : ''}}
+        </h1>
         <button
-        (click)="hanldeNULLDataForm()"
+          (click)="hanldeNULLDataForm()"
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body"></div>
-      <app-form-report></app-form-report>
+      <div class="modal-body">
+        <ng-container *ngIf="vistas[0]">
+          <div class="container">
+            <div class="row">
+              <div class="col d-grid gap-2">
+                <button
+                  class="btn btn-primary"
+                  (click)="handleModalType('Runner')"
+                >
+                  <i class="bi bi-person-fill"></i>
+                  Corredor
+                </button>
+              </div>
+              <div class="col d-grid gap-2">
+                <button
+                  class="btn btn-primary"
+                  (click)="handleModalType('Race')"
+                >
+                  <i class="bi bi-speedometer2"></i>
+                  Carrera
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="vistas[1]">
+          <app-form-report></app-form-report>
+        </ng-container>
+        <ng-container *ngIf="vistas[2]">
+          <app-form-runner></app-form-runner>
+        </ng-container>
+      </div>
       <div class="modal-footer">
-        <button type="button" (click)="hanldeNULLDataForm()" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button
+          type="button"
+          (click)="hanldeNULLDataForm()"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
           Cancelar
         </button>
         <!-- <button type="button" class="btn btn-success">
