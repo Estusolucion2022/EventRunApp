@@ -7,6 +7,7 @@ export class Constants{
     public static ENDPOINT_SAVE_INSCRIPTION = "InscriptionData/Save";
     public static ENDPOINT_GET_INSCRIPTION = "InscriptionData/GetInsciptionData";
     public static ENDPOINT_GET_REPORT_INSCRIPTION = "InscriptionData/GetReportInsciptionData";
+    public static ENDPOINT_UPDATE_INSCRIPTION = "InscriptionData/Update";
     public static ENDPOINT_GET_USER = "Users/Search";
     public static ENDPOINT_GET_PARAMETRY = "Parametry/GetParametry";
     public static ENDPOINT_GET_RACES = "Parametry/GetRaces";

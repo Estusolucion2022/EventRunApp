@@ -170,6 +170,14 @@
               >
                 <span style="color: red">Campo Requerido *</span>
               </ng-container>
+              <ng-container
+                *ngIf="!runnerForm.get('birthDate')?.errors?.['required']
+                  && runnerForm.get('birthDate')?.errors?.['dateValidation']"
+              >
+                <span style="color: red"
+                  >El rango de edad permitido debe ser de 7 a 90 años *</span
+                >
+              </ng-container>
             </div>
           </div>
           <div class="row">
@@ -398,7 +406,7 @@
                 >Descripción del motivo del cambio</label
               >
               <textarea
-              class="form-control"
+                class="form-control"
                 formControlName="description"
                 placeholder="Ej. Petición usuario"
                 rows="1"

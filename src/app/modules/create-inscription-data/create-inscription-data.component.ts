@@ -23,23 +23,7 @@ export class CreateInscriptionDataComponent implements OnInit {
   races: OptionSelect[] = [];
   categories: OptionSelect[] = [];
   formModal!: any;
-
-  // inscriptionForm = this._formBuilder.group({
-  //     idRace:  ['', [Validators.required]],
-  //     idRunner:  ['', [Validators.required]],
-  //     idCategory:  ['', [Validators.required]],
-  //     airlineCityOrigin:  [''],
-  //     departureDate:  [''],
-  //     returnDate:  [''],
-  //     idPaymentMethod:  [''],
-  //     proofPayment:  [''],
-  //     detailsPayment:  ['', [Validators.required]],
-  //     tshirtSize:  ['', [Validators.required]],
-  //     authorizationListEnrolled:  [false],
-  //     club:  [''],
-  //     observations:  [''],
-  //     acceptanceTyC:  [false, [Validators.required]]
-  // })
+  loading: boolean = false;
 
   ngOnInit(): void {
     this.inscriptionForm = this.initForm();
@@ -91,6 +75,7 @@ export class CreateInscriptionDataComponent implements OnInit {
 
   onSubmit(): void {
     if (this.inscriptionForm.valid) {
+      this.loading = true;
       this._inscriptionService
         .createInscription(this.inscriptionForm.value)
         .subscribe((response) => {
@@ -102,6 +87,8 @@ export class CreateInscriptionDataComponent implements OnInit {
           if (response.code == 2 || response.code == 4) {
             alert(response.message);
           }
+        }, null, () => {
+          this.loading = false;
         });
     }
   }

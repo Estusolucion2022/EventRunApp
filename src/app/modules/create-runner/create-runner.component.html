@@ -116,7 +116,7 @@
                   [disabled]="handleInvalidOne() || loading"
                   (click)="changeStep(1)"
                 >
-                  {{loading ? 'Cargando... ' : 'Siguiente'}}
+                  {{ loading ? "Cargando... " : "Siguiente" }}
                 </button>
               </div>
             </div>
@@ -209,6 +209,14 @@
                   && runnerForm.get('birthDate')?.errors?.['required']"
                 >
                   <span style="color: red">Campo Requerido *</span>
+                </ng-container>
+                <ng-container
+                  *ngIf="!runnerForm.get('birthDate')?.errors?.['required']
+                  && runnerForm.get('birthDate')?.errors?.['dateValidation']"
+                >
+                  <span style="color: red"
+                    >El rango de edad permitido debe ser de 7 a 90 años *</span
+                  >
                 </ng-container>
               </div>
             </div>
@@ -587,7 +595,13 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-primary" (click)="handleValidCode()">Acceder</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="handleValidCode()"
+        >
+          Acceder
+        </button>
       </div>
     </div>
   </div>

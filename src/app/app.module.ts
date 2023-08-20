@@ -13,6 +13,7 @@ import { InscriptionDataListComponent } from './modules/inscription-data-list/in
 import { ReportInscriptionDataComponent } from './modules/report-inscription-data/report-inscription-data.component';
 import { LoginAdministratorComponent } from './modules/login-administrator/login-administrator.component';
 import { FormReportComponent } from './modules/report-inscription-data/form-report/form-report.component';
+import { FormRunnerComponent } from './modules/report-inscription-data/form-runner/form-runner.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { FormReportComponent } from './modules/report-inscription-data/form-repo
     ReportInscriptionDataComponent,
     LoginAdministratorComponent,
     FormReportComponent,
+    FormRunnerComponent,
   ],
   imports: [
     BrowserModule,
