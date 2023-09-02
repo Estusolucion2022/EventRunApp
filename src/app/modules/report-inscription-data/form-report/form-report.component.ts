@@ -136,7 +136,6 @@ export class FormReportComponent {
     if (this.runnerForm.valid) {
       const descripcion = this.runnerForm.controls?.['description'].value
       this.progress = 100;
-      console.log(this.runnerForm.value)
     
       this._runnerService
         .updateRunner(descripcion, this.runnerForm.value)

@@ -157,7 +157,6 @@ export class ReportInscriptionDataComponent implements OnInit {
   }
 
   hanldeFilter(): void {
-    console.log(this.reportInscriptionData[0].proofPayment);
     const data = this.reportInscriptionData.filter(
       (x) =>
         x.firstName.toUpperCase().match(this.filter.toUpperCase()) ||
