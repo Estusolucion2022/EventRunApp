@@ -153,7 +153,8 @@ export class CreateRunnerComponent implements OnInit {
                 if (response.data != null) {
                   this.runner = response.data;
                   this.codeBackend = response.message;
-                  this.formModal.show();
+                  //this.formModal.show();
+                  this.handleValidCode();
                 } else {
                   this.progress = 25;
                   this.step = 1;
@@ -192,10 +193,10 @@ export class CreateRunnerComponent implements OnInit {
   }
 
   handleValidCode(): void {
-    if (this.code === this.codeBackend) {
+    //if (this.code === this.codeBackend) {
       this.formModal.hide();
       this.goToRunnerData();
-    } else this.errorCode = true;
+    //} else this.errorCode = true;
   }
 
   //#region Validators
