@@ -22,13 +22,15 @@ export class ReportInscriptionDataComponent implements OnInit {
   reportInscriptionData: ReportInscriptionData[] = [];
   filterReportData: ReportInscriptionData[] = [];
   newReportData: ReportInscriptionData[] = [];
-  data!: ReportInscriptionData
+  data!: ReportInscriptionData;
   indexPag: number[] = [];
+  numberPagShow: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   pagNumber: number = 0;
+  totalPagNumber: number = 0;
   formModal!: any;
   filter!: string;
   documentTypes: OptionSelect[] = [];
-  vistas: boolean[] = [true, false, false]
+  vistas: boolean[] = [true, false, false];
   private _inscriptionService = inject(InscriptionService);
   private _userService = inject(UserService);
   private _runnerService = inject(RunnerService);
@@ -65,6 +67,7 @@ export class ReportInscriptionDataComponent implements OnInit {
       if (response.code == 0) {
         this.reportInscriptionData = response.data;
         this.filterReportData = response.data;
+        this.getNumberPages();
         this.handlePaginator(0);
       }
     });
@@ -76,7 +79,8 @@ export class ReportInscriptionDataComponent implements OnInit {
   handlePaginator(pag: number): void {
     this.pagNumber = pag;
     this.getIndexPages();
-    let numberPag = this.getNumberPages();
+    this.setMaximumPages(pag);
+    let numberPag = this.totalPagNumber;
     if (numberPag < this.pagNumber + 1) return;
     this.newReportData = [];
     let startPag = this.pagNumber !== 0 ? this.pagNumber * 10 : this.pagNumber;
@@ -91,10 +95,10 @@ export class ReportInscriptionDataComponent implements OnInit {
     }
   }
 
-  getNumberPages(): number {
+  getNumberPages(): void {
     let data = this.filterReportData;
     let numberPages = data.length / 10 + 0.4;
-    return Math.round(numberPages);
+    this.totalPagNumber = Math.round(numberPages);
   }
 
   getIndexPages(): number[] {
@@ -109,6 +113,38 @@ export class ReportInscriptionDataComponent implements OnInit {
     return this.indexPag;
   }
 
+  setMaximumPages(currentPage: number): void {
+    if (this.totalPagNumber <= 10) {
+      for (let i = 0; i < this.totalPagNumber; i++) {
+        this.numberPagShow.push(i);
+      }
+      return;
+    }
+
+    let endPage = 5;
+    let startPag = 5;
+    let totalMaxNumber = this.totalPagNumber - currentPage;
+
+    if (currentPage <= 5) {
+      this.numberPagShow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      return;
+    }
+
+    if (currentPage === this.totalPagNumber) endPage = 0;
+
+    this.numberPagShow = [];
+
+    if (totalMaxNumber <= 5) {
+      endPage = totalMaxNumber;
+      startPag += 5 - endPage
+    }
+
+    for (let i = currentPage - startPag; i < currentPage + endPage; i++) {
+      this.numberPagShow.push(i);
+    }
+
+  }
+
   dataClient(data: ReportInscriptionData) {
     if (data.idRunner === 0) return;
     this.data = data;
@@ -116,27 +152,29 @@ export class ReportInscriptionDataComponent implements OnInit {
   }
 
   handleModalType(typeModal: string): void {
-    if (typeModal === 'Runner') this.handleIsRunner(this.data)
-    else this.handleIsRace(this.data)
+    if (typeModal === 'Runner') this.handleIsRunner(this.data);
+    else this.handleIsRace(this.data);
   }
 
   handleIsRunner(data: ReportInscriptionData): void {
     const typeDocument = this.documentTypes.find(
       (x) => x.text == data.documentType
-      )?.value;
-      this._runnerService
+    )?.value;
+    this._runnerService
       .searchRunner(data.documentNumber, typeDocument as string)
       .subscribe((res) => {
         this._trigger.setRunnerForm(res.data);
       });
-    this.vistas = [false, true, false]
+    this.vistas = [false, true, false];
   }
 
   handleIsRace(data: ReportInscriptionData): void {
-    this._inscriptionService.getInscription(data.idRunner).subscribe((res: ResponseApi) => {
-      this._trigger.setRaceForm(res.data[0])
-    })
-    this.vistas = [false, false, true]
+    this._inscriptionService
+      .getInscription(data.idRunner)
+      .subscribe((res: ResponseApi) => {
+        this._trigger.setRaceForm(res.data[0]);
+      });
+    this.vistas = [false, false, true];
   }
 
   handleNotDataRunner() {
@@ -144,14 +182,14 @@ export class ReportInscriptionDataComponent implements OnInit {
       if (!res) {
         this.initData();
         this.formModal.hide();
-        this.vistas = [true, false, false]
+        this.vistas = [true, false, false];
       }
     });
     this._trigger.raceForm$.subscribe((res) => {
       if (!res) {
         this.initData();
         this.formModal.hide();
-        this.vistas = [true, false, false]
+        this.vistas = [true, false, false];
       }
     });
   }
@@ -227,7 +265,7 @@ export class ReportInscriptionDataComponent implements OnInit {
   }
 
   hanldeNULLDataForm(): void {
-    this.vistas = [true, false, false]
+    this.vistas = [true, false, false];
     this._trigger.setRunnerForm(null);
     this.filter = '';
   }

@@ -72,25 +72,37 @@
   <div class="paginator">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
+        <ng-container *ngIf="numberPagShow[0] !== 1">
+          <li class="page-item">
+            <a class="page-link" (click)="handlePaginator(1)"> < 1 </a>
+          </li>
+        </ng-container>
         <li [ngClass]="pagNumber == 0 ? 'page-item disabled' : 'page-item'">
           <a class="page-link" (click)="handlePaginator(pagNumber - 1)"
-            >Previous</a
+            >Anterior</a
           >
         </li>
-        <li
-          *ngFor="let item of [].constructor(getNumberPages()); let i = index"
-        >
-          <a class="page-link" (click)="handlePaginator(i)">{{ i + 1 }}</a>
+        <li *ngFor="let item of numberPagShow">
+          <a class="page-link" (click)="handlePaginator(item)">{{ item }}</a>
         </li>
         <li
           [ngClass]="
-            getNumberPages() === pagNumber + 1
+            totalPagNumber === pagNumber + 1
               ? 'page-item disabled'
               : 'page-item'
           "
         >
-          <a class="page-link" (click)="handlePaginator(pagNumber + 1)">Next</a>
+          <a class="page-link" (click)="handlePaginator(pagNumber + 1)"
+            >Siguiente</a
+          >
         </li>
+        <ng-container *ngIf="totalPagNumber > 10 && numberPagShow[9] !== totalPagNumber - 1">
+        <li class="page-item">
+          <a class="page-link" (click)="handlePaginator(totalPagNumber - 1)"
+              >{{totalPagNumber - 1}} >  </a
+            >
+          </li>
+        </ng-container>
       </ul>
     </nav>
   </div>
@@ -180,9 +192,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
-          Editar 
-          {{ vistas[1] ? 'corredor' : ''}}
-          {{ vistas[2] ? 'carrera' : ''}}
+          Editar
+          {{ vistas[1] ? "corredor" : "" }}
+          {{ vistas[2] ? "carrera" : "" }}
         </h1>
         <button
           (click)="hanldeNULLDataForm()"
