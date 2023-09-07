@@ -2,27 +2,34 @@
   <div class="card">
     <div class="card-body">
       <div class="card-header">
-        <img src="n" alt="logo">
+        <img src="n" alt="logo" />
       </div>
-      <form [formGroup]="loginForm">
-        <div class="col">
-          <label for="FormControlInput8" class="form-label">Usuario</label>
-          <input
-            type="text"
-            class="form-control borderRadius"
-            placeholder="Carlos3"
-            formControlName="userPlataform"
-          />
-        </div>
-        <div class="col">
-          <label for="FormControlInput8" class="form-label">Clave</label>
-          <input
-            type="password"
-            class="form-control borderRadius"
-            placeholder="******"
-            formControlName="password"
-          />
-        </div>
+      <ng-container *ngIf="showPassword[0]">
+        <h3 class="title">Bienvenido, inicia sesión</h3>
+        <form [formGroup]="loginForm">
+          <div class="col">
+            <label for="FormControlInput8" class="form-label">Usuario</label>
+            <input
+              type="text"
+              class="form-control borderRadius"
+              placeholder="Carlos3"
+              formControlName="userPlataform"
+            />
+          </div>
+          <div class="col">
+            <label for="FormControlInput8" class="form-label">Clave</label>
+            <input
+              type="password"
+              class="form-control borderRadius"
+              placeholder="******"
+              formControlName="password"
+            />
+          </div>
+          <a
+            class="btn btn-link"
+            (click)="showPassword = [false, true, false, false]"
+            >¿Olvidaste la clave?</a
+          >
           <div class="col d-grid gap-2">
             <button
               type="button"
@@ -32,7 +39,156 @@
               Continuar
             </button>
           </div>
-      </form>
+        </form>
+      </ng-container>
+
+      <ng-container *ngIf="showPassword[1]">
+        <h3 class="title">Paso 1, Ingresa tu usuario</h3>
+        <form [formGroup]="formUser">
+          <div class="col">
+            <label for="FormControlInput8" class="form-label">Usuario</label>
+            <input
+              type="text"
+              class="form-control borderRadius"
+              placeholder="pepito"
+              formControlName="User"
+            />
+            <ng-container *ngIf="formUser.get('User')?.touched">
+              <ng-container *ngIf="formUser.get('User')?.errors?.['required']">
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="col d-grid gap-2">
+            <button
+              type="button"
+              class="btn btn-primary borderRadius button colorPrimary"
+              (click)="onSubmitEmail(formUser)"
+              [disabled]="loading"
+            >
+              {{ loading ? "Cargando..." : "Continuar" }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary borderRadius"
+              (click)="showPassword = [true, false, false, false]"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </ng-container>
+
+      <ng-container *ngIf="showPassword[2]">
+        <h3 class="title">Ingresa el código OTP</h3>
+        <form [formGroup]="formCode">
+          <div class="col">
+            <label for="FormControlInput8" class="form-label">Código</label>
+            <input
+              type="text"
+              class="form-control borderRadius"
+              placeholder="12345"
+              formControlName="Code"
+            />
+            <ng-container *ngIf="formCode.get('Code')?.touched">
+              <ng-container *ngIf="formCode.get('Code')?.errors?.['required']">
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+              <ng-container *ngIf="!formCode.get('Code')?.errors?.['required'] && errorCode">
+                <span style="color: red">Código incorrecto</span>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="col d-grid gap-2">
+            <button
+              type="button"
+              class="btn btn-primary borderRadius button colorPrimary"
+              (click)="onSubmitCode(formCode)"
+            >
+              Continuar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary borderRadius"
+              (click)="showPassword = [true, false, false, false]"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </ng-container>
+
+      <ng-container *ngIf="showPassword[3]">
+        <h3 class="title">Ingresa tu nueva clave</h3>
+        <form [formGroup]="formRecoverPassword">
+          <div class="col">
+            <label for="FormControlInput8" class="form-label">Contraseña</label>
+            <input
+              type="password"
+              class="form-control borderRadius"
+              placeholder="********"
+              formControlName="Password"
+              (ngModelChange)="handleValidateRepeatControl()"
+            />
+            <ng-container *ngIf="formRecoverPassword.get('Password')?.touched">
+              <ng-container
+                *ngIf="formRecoverPassword.get('Password')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+              <ng-container
+                *ngIf="!formRecoverPassword.get('Password')?.errors?.['required']
+              && formRecoverPassword.get('Password')?.errors?.['repeatValidation']"
+              >
+                <span style="color: red">No Coinciden*</span>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="col">
+            <label for="FormControlInput8" class="form-label"
+              >Repetir Contraseña</label
+            >
+            <input
+              type="password"
+              class="form-control borderRadius"
+              placeholder="******"
+              formControlName="ConfirmPassword"
+              (ngModelChange)="handleValidateRepeatControl()"
+            />
+            <ng-container
+              *ngIf="formRecoverPassword.get('ConfirmPassword')?.touched"
+            >
+              <ng-container
+                *ngIf="formRecoverPassword.get('ConfirmPassword')?.errors?.['required']"
+              >
+                <span style="color: red">Campo Requerido *</span>
+              </ng-container>
+              <ng-container
+                *ngIf="!formRecoverPassword.get('ConfirmPassword')?.errors?.['required']
+              && formRecoverPassword.get('ConfirmPassword')?.errors?.['repeatValidation']"
+              >
+                <span style="color: red">No Coinciden*</span>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="col d-grid gap-2">
+            <button
+              type="button"
+              class="btn btn-primary borderRadius button colorPrimary"
+              (click)="onSubmitRecoverPassword(formRecoverPassword)"
+            >
+              Continuar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary borderRadius"
+              (click)="showPassword = [true, false, false, false]"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </ng-container>
     </div>
   </div>
 </div>

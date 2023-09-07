@@ -26,7 +26,7 @@ import { FormRunnerComponent } from './modules/report-inscription-data/form-runn
     ReportInscriptionDataComponent,
     LoginAdministratorComponent,
     FormReportComponent,
-    FormRunnerComponent,
+    FormRunnerComponent
   ],
   imports: [
     BrowserModule,
