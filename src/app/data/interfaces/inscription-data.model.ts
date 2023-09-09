@@ -16,5 +16,7 @@ export interface InscriptionData{
     authorizationListEnrolled: boolean,
     club: string,
     observations: string,
-    acceptanceTyC: boolean
+    acceptanceTyC: boolean,
+    idUser?: number,
+    description?: boolean
 }

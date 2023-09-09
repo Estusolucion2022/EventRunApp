@@ -26,7 +26,7 @@ export class RunnerService {
 
   updateRunner(description: number, runner: Runner): Observable<ResponseApi>{ 
     const model = {
-      idUser: runner.id,
+      idUser: runner.idUser,
       description,
       runner
     }

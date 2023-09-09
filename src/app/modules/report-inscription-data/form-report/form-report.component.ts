@@ -8,9 +8,11 @@ import {
 } from '@angular/forms';
 import { OptionSelect } from 'src/app/data/interfaces/option-select.model';
 import { Runner } from 'src/app/data/interfaces/runner.model';
+import { User } from 'src/app/data/interfaces/user.model';
 import { ParametryService } from 'src/app/data/services/parametry.service';
 import { RunnerService } from 'src/app/data/services/runner.service';
 import { TriggerService } from 'src/app/data/services/trigger.service';
+import { UserService } from 'src/app/data/services/user.service';
 
 @Component({
   selector: 'app-form-report',
@@ -21,6 +23,7 @@ export class FormReportComponent {
   private readonly _formBuilder = inject(FormBuilder);
   private _runnerService = inject(RunnerService);
   private _parametryService = inject(ParametryService);
+  private _userService = inject(UserService);
   private _trigger = inject(TriggerService);
 
   runnerForm: FormGroup = {} as FormGroup;
@@ -70,7 +73,17 @@ export class FormReportComponent {
         this.runnerForm.controls?.[element].setValue((runnerData as any)[element])
       });
       this.loading = false
+      this.getUser()
     })
+  }
+
+  getUser(): void {
+    this.loading = true;
+    this._userService.getLocalUser$().subscribe((response: User | null) => {
+      if (!response) return;
+      this.runnerForm.controls?.['idUser'].setValue(response.id)
+      this.loading = false;
+    });
   }
 
   initForm(): FormGroup {
@@ -96,6 +109,7 @@ export class FormReportComponent {
         '',
         [Validators.required, Validators.pattern('^[0-9]+$')],
       ],
+      idUser: [''],
       description: ['', [Validators.required]]
     });
   }

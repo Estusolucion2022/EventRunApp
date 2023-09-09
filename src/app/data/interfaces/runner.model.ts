@@ -18,5 +18,6 @@ export interface Runner{
     idGender: number,
     gender: string, 
     emergencyContactName: string, 
-    emergencyContactPhone: string
+    emergencyContactPhone: string,
+    idUser?: string,
 }

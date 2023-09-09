@@ -2,9 +2,11 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InscriptionData } from 'src/app/data/interfaces/inscription-data.model';
 import { OptionSelect } from 'src/app/data/interfaces/option-select.model';
+import { User } from 'src/app/data/interfaces/user.model';
 import { InscriptionService } from 'src/app/data/services/inscription.service';
 import { ParametryService } from 'src/app/data/services/parametry.service';
 import { TriggerService } from 'src/app/data/services/trigger.service';
+import { UserService } from 'src/app/data/services/user.service';
 
 @Component({
   selector: 'app-form-runner',
@@ -15,6 +17,7 @@ export class FormRunnerComponent {
   private readonly _formBuilder = inject(FormBuilder);
   private _parametryService = inject(ParametryService);
   private _inscriptionService = inject(InscriptionService);
+  private _userService = inject(UserService);
   private _trigger = inject(TriggerService);
 
   inscriptionForm: FormGroup = {} as FormGroup;
@@ -28,6 +31,15 @@ export class FormRunnerComponent {
     this.inscriptionForm = this.initForm();
     this.initSelects();
     this.getDataRunner();
+  }
+
+  getUser(): void {
+    this.loading = true;
+    this._userService.getLocalUser$().subscribe((response: User | null) => {
+      if (!response) return;
+      this.inscriptionForm.controls?.['idUser'].setValue(response.id)
+      this.loading = false;
+    });
   }
 
   getDataRunner(): void {
@@ -51,7 +63,7 @@ export class FormRunnerComponent {
         club: res.club,
         observations: res.observations,
         acceptanceTyC: res.acceptanceTyC,
-        registrationDate: res.registrationDate,
+        registrationDate: res.registrationDate
       };
       Object.keys(raceData).forEach((element) => {
         this.inscriptionForm.controls?.[element].setValue(
@@ -59,6 +71,7 @@ export class FormRunnerComponent {
         );
       });
       this.loading = false;
+      this.getUser()
     });
   }
 
@@ -82,6 +95,8 @@ export class FormRunnerComponent {
       observations: [null],
       acceptanceTyC: [false, [Validators.required]],
       registrationDate: [''],
+      description: [''],
+      idUser: ['']
     });
   }
 
@@ -98,6 +113,7 @@ export class FormRunnerComponent {
   }
 
   onSubmit(): void {
+    console.log(this.inscriptionForm.value?.['idUser'])
     if (this.inscriptionForm.valid) {
       this.loading = true;
       this._inscriptionService
