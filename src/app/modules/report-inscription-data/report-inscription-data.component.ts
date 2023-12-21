@@ -10,6 +10,7 @@ import { ParametryService } from 'src/app/data/services/parametry.service';
 import { RunnerService } from 'src/app/data/services/runner.service';
 import { TriggerService } from 'src/app/data/services/trigger.service';
 import { UserService } from 'src/app/data/services/user.service';
+import { Compress } from 'src/app/helpers/ctrypto';
 import * as XLSX from 'xlsx';
 
 declare var window: any;
@@ -65,8 +66,9 @@ export class ReportInscriptionDataComponent implements OnInit {
   initData() {
     this._inscriptionService.getReportInscription().subscribe((response) => {
       if (response.code == 0) {
-        this.reportInscriptionData = response.data;
-        this.filterReportData = response.data;
+        const responseDescrypt = this.handleMapMayus(response.data)
+        this.reportInscriptionData = responseDescrypt
+        this.filterReportData = responseDescrypt
         this.getNumberPages();
         this.handlePaginator(0);
       }
@@ -136,13 +138,12 @@ export class ReportInscriptionDataComponent implements OnInit {
 
     if (totalMaxNumber <= 5) {
       endPage = totalMaxNumber;
-      startPag += 5 - endPage
+      startPag += 5 - endPage;
     }
 
     for (let i = currentPage - startPag; i < currentPage + endPage; i++) {
       this.numberPagShow.push(i);
     }
-
   }
 
   dataClient(data: ReportInscriptionData) {
@@ -268,5 +269,48 @@ export class ReportInscriptionDataComponent implements OnInit {
     this.vistas = [true, false, false];
     this._trigger.setRunnerForm(null);
     this.filter = '';
+  }
+
+  handleMapMayus(data: string): ReportInscriptionData[] {
+    const model = JSON.parse(Compress._008(data))
+    let response: ReportInscriptionData[] = []
+    model.forEach((element: any) => {
+      response.push(
+        {
+          firstName: element.FirstName,
+          idRunner: element.IdRunner,
+          idRace: element.IdRace,
+          race: element.Race,
+          registrationDate: element.RegistrationDate,
+          documentType: element.DocumentType,
+          documentNumber: element.DocumentNumber,
+          lastName: element.LastName,
+          gender: element.Gender,
+          birthDate: element.BirthDate,
+          age: element.Age,
+          bloodType: element.BloodType,
+          email: element.Email,
+          phone: element.Phone,
+          address: element.Address,
+          city: element.City,
+          country: element.Country,
+          airlineCityOrigin: element.AirlineCityOrigin,
+          departureDate: element.DepartureDate,
+          returnDate: element.ReturnDate,
+          paymentMethod: element.PaymentMethod,
+          proofPayment: element.ProofPayment,
+          detailsPayment: element.DetailsPayment,
+          tshirtSize: element.TshirtSize,
+          authorizationListEnrolled: element.AuthorizationListEnrolled,
+          club: element.Club,
+          observations: element.Observations,
+          emergencyContactName: element.EmergencyContactName,
+          emergencyContactPhone: element.EmergencyContactPhone,
+          category: element.Category,
+          categoryRace: element.CategoryRace,
+        }
+      )
+    });
+    return response
   }
 }
